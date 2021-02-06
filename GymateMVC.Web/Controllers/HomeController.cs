@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using GymateMVC.Web.Models;
@@ -21,6 +19,17 @@ namespace GymateMVC.Web.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult ViewListOfExercises()
+        {
+            List<ExerciseDemo> exercises = new List<ExerciseDemo>();
+
+            exercises.Add(new ExerciseDemo() { Id = 1, Name = "Squat", TypeName = "Legs" });
+            exercises.Add(new ExerciseDemo() { Id = 2, Name = "Bench press", TypeName = "Chest" });
+            exercises.Add(new ExerciseDemo() { Id = 3, Name = "Ohp", TypeName = "Shoulders" });
+
+            return View(exercises);
         }
 
         public IActionResult Privacy()
