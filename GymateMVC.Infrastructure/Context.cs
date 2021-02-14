@@ -9,7 +9,6 @@ namespace GymateMVC.Infrastructure
         public DbSet<Exercise> Exercises{ get; set; }
         public DbSet<Routine> Routines{ get; set; }
         public DbSet<ExerciseType> ExerciseTypes { get; set; }
-        public DbSet<DayOfWeek> DaysOfWeek { get; set; }
         public DbSet<ExerciseRoutine> ExerciseRoutine { get; set; }
 
         public Context(DbContextOptions options) : base(options)
@@ -19,10 +18,6 @@ namespace GymateMVC.Infrastructure
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.Entity<Routine>()
-                .HasOne(a => a.DayOfWeek).WithOne(b => b.Routine)
-                .HasForeignKey<DayOfWeek>(e => e.RoutineId);
 
             builder.Entity<ExerciseRoutine>()
                 .HasKey(er => new { er.ExerciseId, er.RoutineId });

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GymateMVC.Domain.Model
+namespace GymateMVC.Application.ViewModels.ExerciseVm
 {
-    public class DayOfWeek
+    public class ExerciseForListVm
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int RoutineId { get; set; }
-        public virtual Routine Routine { get; set; }
+        public string ExerciseTypeName { get; set; }
     }
 }

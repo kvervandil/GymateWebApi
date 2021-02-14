@@ -8,7 +8,7 @@ namespace GymateMVC.Domain.Model
     {
         public int Id { get; set; }
         public int DayOfWeekId { get; set; }
-        public virtual DayOfWeek DayOfWeek { get; set; }
+        public virtual string DayOfWeek { get; set; }
         public virtual ICollection<ExerciseRoutine> ExerciseRoutines { get; set; }
     }
 }
