@@ -1,4 +1,5 @@
-﻿using GymateMVC.Domain.Model;
+﻿using GymateMVC.Domain.Interfaces;
+using GymateMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace GymateMVC.Infrastructure.Repositories
 {
-    public class ExerciseTypeRepository
+    public class ExerciseTypeRepository : IExerciseTypeRepository
     {
         private readonly Context _context;
 
@@ -43,6 +44,13 @@ namespace GymateMVC.Infrastructure.Repositories
         public ExerciseType GetExerciseTypeById(int id)
         {
             var exerciseType = _context.ExerciseTypes.Find(id);
+
+            return exerciseType;
+        }
+
+        public ExerciseType GetExerciseTypeByName(string name)
+        {
+            var exerciseType = _context.ExerciseTypes.FirstOrDefault(et => et.Name == name);
 
             return exerciseType;
         }

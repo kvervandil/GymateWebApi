@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GymateMVC.Application.Interfaces
 {
-    interface IExerciseTypeService
+    public interface IExerciseTypeService
     {
         ListForExerciseTypeListVm GetAllExerciseTypes();
         int AddExerciseType(NewExerciseTypeVm newExerciseType);

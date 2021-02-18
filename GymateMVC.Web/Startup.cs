@@ -11,6 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using GymateMVC.Infrastructure;
+using GymateMVC.Domain.Interfaces;
+using GymateMVC.Infrastructure.Repositories;
+using GymateMVC.Application;
 
 namespace GymateMVC.Web
 {
@@ -31,6 +34,10 @@ namespace GymateMVC.Web
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<Context>();
+
+            services.AddApplication();
+            services.AddInfrastructure();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

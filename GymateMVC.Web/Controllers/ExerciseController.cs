@@ -26,11 +26,11 @@ namespace GymateMVC.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+/*        [HttpPost]
         public IActionResult AddExercise(ExerciseModel model)
         {
             return View();
-        }
+        }*/
 
         [HttpGet]
         public IActionResult AddLoadToExercise(int exerciseId)
@@ -38,11 +38,11 @@ namespace GymateMVC.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+ /*       [HttpPost]
         public IActionResult AddLoadToExercise(LoadModel model)
         {
             return View();
-        }
+        }*/
 
         [HttpGet]
         public IActionResult GetRoutinesForExercise(int exerciseId)

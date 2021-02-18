@@ -1,4 +1,5 @@
-﻿using GymateMVC.Domain.Model;
+﻿using GymateMVC.Domain.Interfaces;
+using GymateMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace GymateMVC.Infrastructure.Repositories
 {
-    public class ExerciseRepository
+    public class ExerciseRepository : IExerciseRepository
     {
         private readonly Context _context;
 
@@ -54,5 +55,10 @@ namespace GymateMVC.Infrastructure.Repositories
 
             return exercises;
         }
+        public IEnumerable<Exercise> GetAllExercises()
+        {
+            return _context.Exercises;
+        }
+
     }
 }

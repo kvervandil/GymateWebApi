@@ -1,4 +1,5 @@
 ﻿using GymateMVC.Domain.Model;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GymateMVC.Domain.Interfaces
@@ -14,5 +15,6 @@ namespace GymateMVC.Domain.Interfaces
         IQueryable GetExercisesByTypeId(int exerciseTypeId);
 
         IQueryable GetExercisesByRoutineId(int routineId);
+        IEnumerable<Exercise> GetAllExercises();
     }
 }

@@ -2,22 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GymateMVC.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymateMVC.Web.Controllers
 {
     public class ExerciseTypeController : Controller
     {
+        private readonly IExerciseTypeService _exerciseTypeService;
+
+        public ExerciseTypeController(IExerciseTypeService exerciseTypeService)
+        {
+            _exerciseTypeService = exerciseTypeService;
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
-            //create view for exercises
-            //table for exercises
-            //filter of exercises
-            //prepare data
-            //provider filters for services
-            //prepare by service
-            //service prepare data in proper format
-            return View();
+            var model = _exerciseTypeService.GetAllExerciseTypes();
+
+            return View(model);
         }
 
         [HttpGet]
@@ -26,11 +30,11 @@ namespace GymateMVC.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+/*        [HttpPost]
         public IActionResult AddExerciseType(ExerciseModel model)
         {
             return View();
-        }
+        }*/
 
         [HttpGet]
         public IActionResult GetExercisesForExerciseType(int exerciseTypeId) 
