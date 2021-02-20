@@ -1,6 +1,7 @@
 ﻿using GymateMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GymateMVC.Domain.Interfaces
@@ -9,7 +10,7 @@ namespace GymateMVC.Domain.Interfaces
     {
         int AddExerciseType(ExerciseType exerciseType);
         void DeleteExerciseType(int id);
-        IEnumerable<ExerciseType> GetAllExerciseTypes();
+        IQueryable<ExerciseType> GetAllExerciseTypes();
         ExerciseType GetExerciseTypeById(int id);
         ExerciseType GetExerciseTypeByName(string name);       
     }

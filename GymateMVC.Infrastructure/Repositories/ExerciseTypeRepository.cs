@@ -36,7 +36,7 @@ namespace GymateMVC.Infrastructure.Repositories
             }
         }
 
-        public IEnumerable<ExerciseType> GetAllExerciseTypes()
+        public IQueryable<ExerciseType> GetAllExerciseTypes()
         {
             return _context.ExerciseTypes;
         }

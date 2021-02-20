@@ -7,7 +7,7 @@ namespace GymateMVC.Application.Interfaces
 {
     public interface IExerciseTypeService
     {
-        ListForExerciseTypeListVm GetAllExerciseTypes();
+        ListForExerciseTypeListVm GetAllExerciseTypes(int pageSize, int pageNo, string searchString);
         int AddExerciseType(NewExerciseTypeVm newExerciseType);
         ExerciseTypeForListVm GetExerciseType(int id);
     }

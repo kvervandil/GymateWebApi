@@ -4,6 +4,7 @@ using GymateMVC.Domain.Interfaces;
 using GymateMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GymateMVC.Application.Services
@@ -28,15 +29,13 @@ namespace GymateMVC.Application.Services
             return exerciseType.Id;
         }
 
-        public ListForExerciseTypeListVm GetAllExerciseTypes()
+        public ListForExerciseTypeListVm GetAllExerciseTypes(int pageSize, int pageNo, string searchString)
         {
-            ListForExerciseTypeListVm listForExerciseTypeListVm = new ListForExerciseTypeListVm();
+            var exerciseTypes = _exerciseTypeRepo.GetAllExerciseTypes().Where(et => et.Name.StartsWith(searchString));
+            var exerciseTypesToShow = exerciseTypes.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+            var listForExerciseTypesToShow = new List<ExerciseTypeForListVm>();
 
-            var exerciseTypes = _exerciseTypeRepo.GetAllExerciseTypes();
-
-            listForExerciseTypeListVm.ListForExerciseTypeList = new List<ExerciseTypeForListVm>();
-
-            foreach (var exerciseType in exerciseTypes)
+            foreach (var exerciseType in exerciseTypesToShow)
             {
                 var exerciseTypeForListVm = new ExerciseTypeForListVm()
                 {
@@ -44,10 +43,17 @@ namespace GymateMVC.Application.Services
                     Name = exerciseType.Name,
                 };
 
-                listForExerciseTypeListVm.ListForExerciseTypeList.Add(exerciseTypeForListVm);
+                listForExerciseTypesToShow.Add(exerciseTypeForListVm);
             }
 
-            listForExerciseTypeListVm.Count = listForExerciseTypeListVm.ListForExerciseTypeList.Count;
+            ListForExerciseTypeListVm listForExerciseTypeListVm = new ListForExerciseTypeListVm()
+            {
+                ListForExerciseTypeList = listForExerciseTypesToShow,
+                PageSize = pageSize,
+                CurrentPage = pageNo,
+                SearchString = searchString,
+                Count = exerciseTypes.Count()
+            };
 
             return listForExerciseTypeListVm;
         }
