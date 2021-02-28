@@ -57,8 +57,9 @@ namespace GymateMVC.Infrastructure.Repositories
         }
         public IEnumerable<Exercise> GetAllExercises()
         {
-            return _context.Exercises;
-        }
+            IEnumerable<Exercise> exercises = _context.Exercises;
 
+            return exercises;
+        }
     }
 }

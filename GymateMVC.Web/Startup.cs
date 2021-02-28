@@ -14,6 +14,10 @@ using GymateMVC.Infrastructure;
 using GymateMVC.Domain.Interfaces;
 using GymateMVC.Infrastructure.Repositories;
 using GymateMVC.Application;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using GymateMVC.Application.ViewModels.ExerciseTypeVm;
+using Microsoft.Extensions.Logging;
 
 namespace GymateMVC.Web
 {
@@ -38,13 +42,16 @@ namespace GymateMVC.Web
             services.AddApplication();
             services.AddInfrastructure();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddFluentValidation();
             services.AddRazorPages();
+
+            services.AddTransient<IValidator<NewExerciseTypeVm>, NewExerciseTypeValidation>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile("Logs/myLog-{Date}.txt");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

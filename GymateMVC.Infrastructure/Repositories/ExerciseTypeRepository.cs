@@ -43,7 +43,7 @@ namespace GymateMVC.Infrastructure.Repositories
 
         public ExerciseType GetExerciseTypeById(int id)
         {
-            var exerciseType = _context.ExerciseTypes.Find(id);
+            ExerciseType exerciseType = _context.ExerciseTypes.Find(id);
 
             return exerciseType;
         }
@@ -55,5 +55,12 @@ namespace GymateMVC.Infrastructure.Repositories
             return exerciseType;
         }
 
+        public void UpdateExerciseType(ExerciseType exerciseType)
+        {
+            _context.Attach(exerciseType);
+            _context.Entry(exerciseType).Property("Name").IsModified = true;
+
+            _context.SaveChanges();
+        }
     }
 }

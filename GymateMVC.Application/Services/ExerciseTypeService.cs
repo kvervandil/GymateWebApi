@@ -20,13 +20,20 @@ namespace GymateMVC.Application.Services
 
         public int AddExerciseType(NewExerciseTypeVm newExerciseType)
         {
-            var exerciseType = new ExerciseType();
-            exerciseType.Id = newExerciseType.Id;
-            exerciseType.Name = newExerciseType.Name;
+            var exerciseType = new ExerciseType
+            {
+                Id = newExerciseType.Id,
+                Name = newExerciseType.Name
+            };
 
-            _exerciseTypeRepo.AddExerciseType(exerciseType);
+            var id = _exerciseTypeRepo.AddExerciseType(exerciseType);
 
-            return exerciseType.Id;
+            return id;
+        }
+
+        public void DeleteExerciseType(int id)
+        {
+            _exerciseTypeRepo.DeleteExerciseType(id);
         }
 
         public ListForExerciseTypeListVm GetAllExerciseTypes(int pageSize, int pageNo, string searchString)
@@ -58,28 +65,28 @@ namespace GymateMVC.Application.Services
             return listForExerciseTypeListVm;
         }
 
-        public ExerciseTypeForListVm GetExerciseType(int id)
+        public NewExerciseTypeVm GetExerciseTypeForEdit(int id)
         {
             var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(id);
 
-            var exerciseTypeForListVm = new ExerciseTypeForListVm();
+            var newExerciseTypeVm = new NewExerciseTypeVm
+            {
+                Id = exerciseType.Id,
+                Name = exerciseType.Name
+            };
 
-            exerciseTypeForListVm.Id = exerciseType.Id;
-            exerciseTypeForListVm.Name = exerciseType.Name;
-
-            return exerciseTypeForListVm;
+            return newExerciseTypeVm;
         }
 
-        public ExerciseTypeForListVm GetExerciseType(string name)
+        public void UpdateExerciseType(NewExerciseTypeVm model)
         {
-            var exerciseType = _exerciseTypeRepo.GetExerciseTypeByName(name);
+            ExerciseType exerciseType = new ExerciseType
+            {
+                Id = model.Id,
+                Name = model.Name,
+            };
 
-            var exerciseTypeForListVm = new ExerciseTypeForListVm();
-
-            exerciseTypeForListVm.Id = exerciseType.Id;
-            exerciseTypeForListVm.Name = exerciseType.Name;
-
-            return exerciseTypeForListVm;
+            _exerciseTypeRepo.UpdateExerciseType(exerciseType);
         }
     }
 }

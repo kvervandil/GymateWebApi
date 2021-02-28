@@ -12,6 +12,7 @@ namespace GymateMVC.Domain.Interfaces
         void DeleteExerciseType(int id);
         IQueryable<ExerciseType> GetAllExerciseTypes();
         ExerciseType GetExerciseTypeById(int id);
-        ExerciseType GetExerciseTypeByName(string name);       
+        ExerciseType GetExerciseTypeByName(string name);
+        void UpdateExerciseType(ExerciseType exerciseType);
     }
 }

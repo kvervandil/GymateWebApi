@@ -23,13 +23,7 @@ namespace GymateMVC.Web.Controllers
 
         public IActionResult ViewListOfExercises()
         {
-            List<ExerciseDemo> exercises = new List<ExerciseDemo>();
-
-            exercises.Add(new ExerciseDemo() { Id = 1, Name = "Squat", TypeName = "Legs" });
-            exercises.Add(new ExerciseDemo() { Id = 2, Name = "Bench press", TypeName = "Chest" });
-            exercises.Add(new ExerciseDemo() { Id = 3, Name = "Ohp", TypeName = "Shoulders" });
-
-            return View(exercises);
+            return View();
         }
 
         public IActionResult Privacy()

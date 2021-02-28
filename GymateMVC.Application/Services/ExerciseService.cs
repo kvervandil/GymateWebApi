@@ -12,10 +12,12 @@ namespace GymateMVC.Application.Services
     public class ExerciseService : IExerciseService
     {
         private readonly IExerciseRepository _exerciseRepo;
+        private readonly IExerciseTypeRepository _exerciseTypeRepo;
 
-        public ExerciseService(IExerciseRepository exerciseRepository)
+        public ExerciseService(IExerciseRepository exerciseRepository, IExerciseTypeRepository exerciseTypeRepository)
         {
             _exerciseRepo = exerciseRepository;
+            _exerciseTypeRepo = exerciseTypeRepository;
         }
 
         public int AddExercise(NewExerciseVm newExerciseVm, ExerciseTypeForListVm exerciseTypeForListVm)
@@ -50,11 +52,13 @@ namespace GymateMVC.Application.Services
 
             foreach (var exercise in exercises)
             {
+                var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(exercise.ExerciseTypeId);
+
                 ExerciseForListVm exerciseForListVm = new ExerciseForListVm()
                 {
                     Id = exercise.Id,
                     Name = exercise.Name,
-                    ExerciseTypeName = exercise.ExerciseType.Name
+                    ExerciseTypeName = exerciseType.Name
                 };
 
                 listForExercisesListVm.ListExercisesForList.Add(exerciseForListVm);

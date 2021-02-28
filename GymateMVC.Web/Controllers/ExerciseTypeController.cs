@@ -5,16 +5,19 @@ using System.Threading.Tasks;
 using GymateMVC.Application.Interfaces;
 using GymateMVC.Application.ViewModels.ExerciseTypeVm;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace GymateMVC.Web.Controllers
 {
     public class ExerciseTypeController : Controller
     {
         private readonly IExerciseTypeService _exerciseTypeService;
+        private readonly ILogger<ExerciseTypeController> _logger;
 
-        public ExerciseTypeController(IExerciseTypeService exerciseTypeService)
+        public ExerciseTypeController(IExerciseTypeService exerciseTypeService, ILogger<ExerciseTypeController> loger)
         {
             _exerciseTypeService = exerciseTypeService;
+            _logger = loger;
         }
 
         [HttpGet]
@@ -26,6 +29,7 @@ namespace GymateMVC.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Index(int pageSize, int? pageNo, string searchString) 
         {
             if (!pageNo.HasValue)
@@ -47,9 +51,28 @@ namespace GymateMVC.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult AddExerciseType(NewExerciseTypeVm model)
         {
-            return View();
+            var id = _exerciseTypeService.AddExerciseType(model);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult EditExerciseType(int id)
+        {
+            var exerciseType = _exerciseTypeService.GetExerciseTypeForEdit(id);
+
+            return View(exerciseType);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditExerciseType(NewExerciseTypeVm model)
+        {
+            _exerciseTypeService.UpdateExerciseType(model);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -58,6 +81,11 @@ namespace GymateMVC.Web.Controllers
             return View();
         }
 
+        public IActionResult Delete(int id)
+        {
+            _exerciseTypeService.DeleteExerciseType(id);
 
+            return RedirectToAction("Index");
+        }
     }
 }

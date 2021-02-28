@@ -9,6 +9,8 @@ namespace GymateMVC.Application.Interfaces
     {
         ListForExerciseTypeListVm GetAllExerciseTypes(int pageSize, int pageNo, string searchString);
         int AddExerciseType(NewExerciseTypeVm newExerciseType);
-        ExerciseTypeForListVm GetExerciseType(int id);
+        NewExerciseTypeVm GetExerciseTypeForEdit(int id);
+        void UpdateExerciseType(NewExerciseTypeVm model);
+        void DeleteExerciseType(int id);
     }
 }
