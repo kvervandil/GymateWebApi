@@ -11,8 +11,8 @@ namespace GymateMVC.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddScoped<IExerciseTypeRepository, ExerciseTypeRepository>();
-            services.AddScoped<IExerciseRepository, ExerciseRepository>();
+            services.AddTransient<IExerciseTypeRepository, ExerciseTypeRepository>();
+            services.AddTransient<IExerciseRepository, ExerciseRepository>();
 
             return services;
         }
