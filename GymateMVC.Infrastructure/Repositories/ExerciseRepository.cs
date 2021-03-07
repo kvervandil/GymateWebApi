@@ -1,5 +1,6 @@
 ﻿using GymateMVC.Domain.Interfaces;
 using GymateMVC.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,11 +56,20 @@ namespace GymateMVC.Infrastructure.Repositories
 
             return exercises;
         }
-        public IEnumerable<Exercise> GetAllExercises()
+        public IQueryable<Exercise> GetAllExercises()
         {
-            IEnumerable<Exercise> exercises = _context.Exercises;
+            IQueryable<Exercise> exercises = _context.Exercises.Include(e => e.ExerciseType);
 
             return exercises;
+        }
+
+        public void UpdateExercise(Exercise exercise)
+        {
+            _context.Attach(exercise);
+            _context.Entry(exercise).Property("Name").IsModified = true;
+            _context.Entry(exercise).Property("ExerciseTypeId").IsModified = true;
+
+            _context.SaveChanges();
         }
     }
 }

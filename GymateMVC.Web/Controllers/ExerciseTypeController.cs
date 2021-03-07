@@ -23,7 +23,7 @@ namespace GymateMVC.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            var model = _exerciseTypeService.GetAllExerciseTypes(2, 1, string.Empty);
+            var model = _exerciseTypeService.GetAllExerciseTypes(10, 1, string.Empty);
 
             return View(model);
         }

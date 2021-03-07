@@ -1,5 +1,4 @@
-﻿using GymateMVC.Application.ViewModels.ExerciseTypeVm;
-using GymateMVC.Application.ViewModels.ExerciseVm;
+﻿using GymateMVC.Application.ViewModels.ExerciseVm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +8,11 @@ namespace GymateMVC.Application.Interfaces
 {
     public interface IExerciseService
     {
-        ListForExercisesListVm GetAllExercises();
-        int AddExercise(NewExerciseVm newExerciseVm, ExerciseTypeForListVm exerciseTypeForListVm);
+        ListForExerciseListVm GetAllExercises(int pageSize, int pageNo, string searchString);
+        int AddExercise(NewExerciseVm newExerciseVm);
         ExerciseForListVm GetExercise(int id);
+        NewExerciseVm GetExerciseForEdit(int id);
+        void UpdateExercise(NewExerciseVm model);
+        void DeleteExercise(int id);
     }
 }

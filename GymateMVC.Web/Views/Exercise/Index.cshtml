@@ -1,4 +1,4 @@
-﻿@model GymateMVC.Application.ViewModels.ExerciseVm.ListForExercisesListVm
+﻿@model GymateMVC.Application.ViewModels.ExerciseVm.ListForExerciseListVm
 
 @{
     ViewData["Title"] = "Index";
@@ -9,38 +9,79 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                Exercise Type
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var exercise in Model.ListExercisesForList) {
+
+<form asp-action="Index" asp-controller="Exercise" method="post">
+    <div class="row">
+        <input type="text" name="searchString" asp-for="SearchString" id="searchString" />
+        <input type="submit" value="Find" />
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => exercise.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => exercise.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => exercise.ExerciseTypeName)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>
+                    <th>
+                        Id
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Exercise Type
+                    </th>
                 </tr>
+            </thead>
+            <tbody>
+                @foreach (var exercise in Model.ListExercisesForList)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => exercise.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => exercise.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => exercise.ExerciseTypeName)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditExercise", new { id = exercise.Id }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "DeleteExercise", new { id = exercise.Id})
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <table>
+            <tr>
+                @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
+                {
+                    <td>
+                        @if (i != Model.CurrentPage)
+                        {
+                            <a href="javascript:PagerClick(@i)">@i</a>
+                        }
+                        else
+                        {
+                            <span>@i</span>
+                        }
+                    </td>
+                }
+            </tr>
+        </table>
+        <input type="hidden" name="pageNo" id="pageNo" />
+        <input type="hidden" name="pageSize" id="pageSize" value="2" />
+    </div>
+</form>
+
+@section Scripts 
+{
+    <script type="text/javascript">
+        function PagerClick(index) {
+            document.getElementById("pageNo").value = index;
+            document.forms[0].submit();
         }
-    </tbody>
-</table>
+    </script>
+}

@@ -1,7 +1,9 @@
 ﻿using GymateMVC.Application.Interfaces;
 using GymateMVC.Application.ViewModels.ExerciseTypeVm;
+using GymateMVC.Application.ViewModels.ExerciseVm;
 using GymateMVC.Domain.Interfaces;
 using GymateMVC.Domain.Model;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,6 +89,27 @@ namespace GymateMVC.Application.Services
             };
 
             _exerciseTypeRepo.UpdateExerciseType(exerciseType);
+        }
+
+        public List<SelectListItem> GetSelectListOfAllExerciseTypes(int chosenExerciseTypeId)
+        {
+            List<SelectListItem> selectedItems = new List<SelectListItem>();
+
+            var exerciseTypes = _exerciseTypeRepo.GetAllExerciseTypes();
+
+            foreach (var exerciseType in exerciseTypes)
+            {
+                SelectListItem selectedExerciseType = new SelectListItem { Value = exerciseType.Id.ToString(), Text = exerciseType.Name };
+
+                if (exerciseType.Id == chosenExerciseTypeId)
+                {
+                    selectedExerciseType.Selected = true;
+                }
+
+                selectedItems.Add(selectedExerciseType);
+            }
+
+            return selectedItems;
         }
     }
 }

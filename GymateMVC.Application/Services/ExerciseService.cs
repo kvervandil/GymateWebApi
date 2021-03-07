@@ -5,6 +5,7 @@ using GymateMVC.Domain.Interfaces;
 using GymateMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GymateMVC.Application.Services
@@ -20,20 +21,16 @@ namespace GymateMVC.Application.Services
             _exerciseTypeRepo = exerciseTypeRepository;
         }
 
-        public int AddExercise(NewExerciseVm newExerciseVm, ExerciseTypeForListVm exerciseTypeForListVm)
+        public int AddExercise(NewExerciseVm newExerciseVm)
         {
-            ExerciseType exerciseType = new ExerciseType
-            {
-                Id = exerciseTypeForListVm.Id,
-                Name = exerciseTypeForListVm.Name
-            };
+            var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(newExerciseVm.ExerciseTypeId);
 
             var exercise = new Exercise
             {
                 Id = newExerciseVm.Id,
-                Name = newExerciseVm.Name,                
+                Name = newExerciseVm.Name,
                 ExerciseType = exerciseType,
-                ExerciseTypeId = exerciseTypeForListVm.Id
+                ExerciseTypeId = exerciseType.Id
             };
 
             _exerciseRepo.AddExercise(exercise);
@@ -41,29 +38,32 @@ namespace GymateMVC.Application.Services
             return exercise.Id;
         }
 
-        public ListForExercisesListVm GetAllExercises()
+        public ListForExerciseListVm GetAllExercises(int pageSize, int pageNo, string searchString)
         {
-            ListForExercisesListVm listForExercisesListVm = new ListForExercisesListVm
+            ListForExerciseListVm listForExercisesListVm = new ListForExerciseListVm
             {
                 ListExercisesForList = new List<ExerciseForListVm>()
             };
 
-            var exercises = _exerciseRepo.GetAllExercises();
+            var exercises = _exerciseRepo.GetAllExercises().Where(e => e.Name.StartsWith(searchString));
 
-            foreach (var exercise in exercises)
+            var exercisesToShow = exercises.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
+
+            foreach (var exercise in exercisesToShow)
             {
-                var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(exercise.ExerciseTypeId);
-
                 ExerciseForListVm exerciseForListVm = new ExerciseForListVm()
                 {
                     Id = exercise.Id,
                     Name = exercise.Name,
-                    ExerciseTypeName = exerciseType.Name
+                    ExerciseTypeName = exercise.ExerciseType.Name
                 };
 
                 listForExercisesListVm.ListExercisesForList.Add(exerciseForListVm);
             }
-            listForExercisesListVm.Count = listForExercisesListVm.ListExercisesForList.Count;
+            listForExercisesListVm.Count = exercises.Count();
+            listForExercisesListVm.CurrentPage = pageNo;
+            listForExercisesListVm.PageSize = pageSize;
+            listForExercisesListVm.SearchString = searchString;
 
             return listForExercisesListVm;
         }
@@ -80,6 +80,39 @@ namespace GymateMVC.Application.Services
             };
 
             return exerciseForListVm;
+        }
+
+        public NewExerciseVm GetExerciseForEdit(int id)
+        {
+            var exercise = _exerciseRepo.GetExerciseById(id);
+
+            NewExerciseVm newExerciseVm = new NewExerciseVm() { 
+                Id = exercise.Id,
+                Name = exercise.Name,
+                ExerciseTypeId = exercise.ExerciseTypeId,
+            };
+
+            return newExerciseVm;
+        }
+
+        public void UpdateExercise(NewExerciseVm model)
+        {
+            ExerciseType exerciseType = _exerciseTypeRepo.GetExerciseTypeById(model.ExerciseTypeId);
+
+            Exercise exercise = new Exercise()
+            {
+                Id = model.Id,
+                ExerciseTypeId = model.ExerciseTypeId,
+                Name = model.Name,
+                ExerciseType = exerciseType
+            };
+
+            _exerciseRepo.UpdateExercise(exercise);
+        }
+
+        public void DeleteExercise(int id)
+        {
+            _exerciseRepo.DeleteExercise(id);
         }
     }
 }
