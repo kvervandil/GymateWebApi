@@ -1,0 +1,6 @@
+2021-03-10T13:53:04.2629267+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-03-10T13:53:04.2909412+01:00  [INF] Hosting environment: "Development" (c3307c92)
+2021-03-10T13:53:04.2930610+01:00  [INF] Content root path: "D:\Dokumenty\Aplikacje\GymateMVC\GymateMVC.Web" (b5d60022)
+2021-03-10T13:58:34.6972475+01:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-03-10T13:58:34.7106858+01:00  [INF] Hosting environment: "Development" (c3307c92)
+2021-03-10T13:58:34.7124412+01:00  [INF] Content root path: "D:\Dokumenty\Aplikacje\GymateMVC\GymateMVC.Web" (b5d60022)

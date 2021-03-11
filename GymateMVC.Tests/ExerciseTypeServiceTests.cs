@@ -87,7 +87,6 @@ namespace GymateMVC.Tests
             Assert.True(areListsEqual);
         }
 
-
         [Fact]
         public void Should_RepoGetAllExerciseTypes_ReturnOnlyFirstVm_WhenGetAllExerciseTypesCalledWithPageSizeOne()
         {
@@ -178,7 +177,6 @@ namespace GymateMVC.Tests
 
             Assert.True(areListsEqual);
         }
-
 
         private bool AreListsForExerciseTypesEqual(ListForExerciseTypeListVm result, ListForExerciseTypeListVm expectedResult)
         {

@@ -60,6 +60,7 @@ namespace GymateMVC.Application.Services
 
                 listForExercisesListVm.ListExercisesForList.Add(exerciseForListVm);
             }
+
             listForExercisesListVm.Count = exercises.Count();
             listForExercisesListVm.CurrentPage = pageNo;
             listForExercisesListVm.PageSize = pageSize;
@@ -103,7 +104,7 @@ namespace GymateMVC.Application.Services
             {
                 Id = model.Id,
                 ExerciseTypeId = model.ExerciseTypeId,
-                Name = model.Name,
+                Name = model.Name,                
                 ExerciseType = exerciseType
             };
 
