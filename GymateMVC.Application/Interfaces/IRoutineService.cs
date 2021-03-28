@@ -7,10 +7,11 @@ namespace GymateMVC.Application.Interfaces
 {
     public interface IRoutineService
     {
-        ListRoutinesForListVm GetAllRoutines();
-        int AddRoutine();
-        RoutineForListVm GetRoutine();
-        void UpdateRoutine();
-        void DeleteRoutine();
+        ListForRoutinesForListVm GetAllRoutines();
+        int AddRoutine(NewRoutineVm model);
+        RoutineForListVm GetRoutine(int id);
+        void UpdateRoutine(NewRoutineVm routineVm);
+        void DeleteRoutine(int id);
+        NewRoutineVm GetRoutineToNameEdit(int id);
     }
 }

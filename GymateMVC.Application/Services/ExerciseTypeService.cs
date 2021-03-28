@@ -1,4 +1,6 @@
-﻿using GymateMVC.Application.Interfaces;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using GymateMVC.Application.Interfaces;
 using GymateMVC.Application.ViewModels.ExerciseTypeVm;
 using GymateMVC.Application.ViewModels.ExerciseVm;
 using GymateMVC.Domain.Interfaces;
@@ -14,10 +16,12 @@ namespace GymateMVC.Application.Services
     public class ExerciseTypeService : IExerciseTypeService
     {
         private readonly IExerciseTypeRepository _exerciseTypeRepo;
+        private readonly IMapper _mapper;
 
-        public ExerciseTypeService(IExerciseTypeRepository exerciseTypeRepository)
+        public ExerciseTypeService(IExerciseTypeRepository exerciseTypeRepository, IMapper mapper)
         {
             _exerciseTypeRepo = exerciseTypeRepository;
+            _mapper = mapper;
         }
 
         public int AddExerciseType(NewExerciseTypeVm newExerciseType)
@@ -40,24 +44,15 @@ namespace GymateMVC.Application.Services
 
         public ListForExerciseTypeListVm GetAllExerciseTypes(int pageSize, int pageNo, string searchString)
         {
-            var exerciseTypes = _exerciseTypeRepo.GetAllExerciseTypes().Where(et => et.Name.StartsWith(searchString));
+            var exerciseTypes = _exerciseTypeRepo.GetAllExerciseTypes().Where(et => et.Name.StartsWith(searchString))
+                .ProjectTo<ExerciseTypeForListVm>(_mapper.ConfigurationProvider).ToList();
+
             var exerciseTypesToShow = exerciseTypes.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
             var listForExerciseTypesToShow = new List<ExerciseTypeForListVm>();
 
-            foreach (var exerciseType in exerciseTypesToShow)
-            {
-                var exerciseTypeForListVm = new ExerciseTypeForListVm()
-                {
-                    Id = exerciseType.Id,
-                    Name = exerciseType.Name,
-                };
-
-                listForExerciseTypesToShow.Add(exerciseTypeForListVm);
-            }
-
             ListForExerciseTypeListVm listForExerciseTypeListVm = new ListForExerciseTypeListVm()
             {
-                ListForExerciseTypeList = listForExerciseTypesToShow,
+                ListForExerciseTypeList = exerciseTypesToShow,
                 PageSize = pageSize,
                 CurrentPage = pageNo,
                 SearchString = searchString,
@@ -71,11 +66,7 @@ namespace GymateMVC.Application.Services
         {
             var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(id);
 
-            var newExerciseTypeVm = new NewExerciseTypeVm
-            {
-                Id = exerciseType.Id,
-                Name = exerciseType.Name
-            };
+            var newExerciseTypeVm = _mapper.Map<NewExerciseTypeVm>(exerciseType);
 
             return newExerciseTypeVm;
         }
@@ -91,7 +82,7 @@ namespace GymateMVC.Application.Services
             _exerciseTypeRepo.UpdateExerciseType(exerciseType);
         }
 
-        public List<SelectListItem> GetSelectListOfAllExerciseTypes(int chosenExerciseTypeId)
+        public List<SelectListItem> GetSelectListOfAllExerciseTypes(int chosenExerciseTypeId = 0)
         {
             List<SelectListItem> selectedItems = new List<SelectListItem>();
 
@@ -110,6 +101,19 @@ namespace GymateMVC.Application.Services
             }
 
             return selectedItems;
+        }
+
+        public ListOfExerciseTypesWithExercisesForRoutine GetAllExerciseTypesWithExercises()
+        {
+            var listOfExericeTypes = new ListOfExerciseTypesWithExercisesForRoutine();
+
+            var exerciseTypes = _exerciseTypeRepo.GetExerciseTypesWithExercises()
+                .ProjectTo<ExerciseTypeWithExercisesForRoutineVm>(_mapper.ConfigurationProvider).ToList();
+
+            listOfExericeTypes.ListExerciseTypesForRoutine = exerciseTypes;
+            listOfExericeTypes.Count = exerciseTypes.Count;
+
+            return listOfExericeTypes;
         }
     }
 }

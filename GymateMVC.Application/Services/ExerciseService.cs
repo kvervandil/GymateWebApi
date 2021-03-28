@@ -1,5 +1,6 @@
-﻿using GymateMVC.Application.Interfaces;
-using GymateMVC.Application.ViewModels.ExerciseTypeVm;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using GymateMVC.Application.Interfaces;
 using GymateMVC.Application.ViewModels.ExerciseVm;
 using GymateMVC.Domain.Interfaces;
 using GymateMVC.Domain.Model;
@@ -14,11 +15,15 @@ namespace GymateMVC.Application.Services
     {
         private readonly IExerciseRepository _exerciseRepo;
         private readonly IExerciseTypeRepository _exerciseTypeRepo;
+        private readonly IMapper _mapper;
 
-        public ExerciseService(IExerciseRepository exerciseRepository, IExerciseTypeRepository exerciseTypeRepository)
+        public ExerciseService(IExerciseRepository exerciseRepository,
+                               IExerciseTypeRepository exerciseTypeRepository,
+                               IMapper mapper)
         {
             _exerciseRepo = exerciseRepository;
             _exerciseTypeRepo = exerciseTypeRepository;
+            _mapper = mapper;
         }
 
         public int AddExercise(NewExerciseVm newExerciseVm)
@@ -40,31 +45,19 @@ namespace GymateMVC.Application.Services
 
         public ListForExerciseListVm GetAllExercises(int pageSize, int pageNo, string searchString)
         {
-            ListForExerciseListVm listForExercisesListVm = new ListForExerciseListVm
-            {
-                ListExercisesForList = new List<ExerciseForListVm>()
-            };
-
-            var exercises = _exerciseRepo.GetAllExercises().Where(e => e.Name.StartsWith(searchString));
+            var exercises = _exerciseRepo.GetAllExercises().Where(e => e.Name.StartsWith(searchString))
+                .ProjectTo<ExerciseForListVm>(_mapper.ConfigurationProvider).ToList();
 
             var exercisesToShow = exercises.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
 
-            foreach (var exercise in exercisesToShow)
+            ListForExerciseListVm listForExercisesListVm = new ListForExerciseListVm
             {
-                ExerciseForListVm exerciseForListVm = new ExerciseForListVm()
-                {
-                    Id = exercise.Id,
-                    Name = exercise.Name,
-                    ExerciseTypeName = exercise.ExerciseType.Name
-                };
-
-                listForExercisesListVm.ListExercisesForList.Add(exerciseForListVm);
-            }
-
-            listForExercisesListVm.Count = exercises.Count();
-            listForExercisesListVm.CurrentPage = pageNo;
-            listForExercisesListVm.PageSize = pageSize;
-            listForExercisesListVm.SearchString = searchString;
+                Count = exercises.Count(),
+                CurrentPage = pageNo,
+                PageSize = pageSize,
+                SearchString = searchString,
+                ListExercisesForList = exercisesToShow
+            };
 
             return listForExercisesListVm;
         }
@@ -73,12 +66,7 @@ namespace GymateMVC.Application.Services
         {
             var exercise = _exerciseRepo.GetExerciseById(id);
 
-            ExerciseForListVm exerciseForListVm = new ExerciseForListVm()
-            {
-                Id = exercise.Id,
-                Name = exercise.Name,
-                ExerciseTypeName = exercise.ExerciseType.Name
-            };
+            var exerciseForListVm = _mapper.Map<ExerciseForListVm>(exercise);
 
             return exerciseForListVm;
         }
@@ -87,11 +75,7 @@ namespace GymateMVC.Application.Services
         {
             var exercise = _exerciseRepo.GetExerciseById(id);
 
-            NewExerciseVm newExerciseVm = new NewExerciseVm() { 
-                Id = exercise.Id,
-                Name = exercise.Name,
-                ExerciseTypeId = exercise.ExerciseTypeId,
-            };
+            var newExerciseVm = _mapper.Map<NewExerciseVm>(exercise);
 
             return newExerciseVm;
         }

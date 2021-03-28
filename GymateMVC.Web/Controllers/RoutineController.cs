@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GymateMVC.Application.Interfaces;
+using GymateMVC.Application.ViewModels.RoutineVm;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,26 +10,63 @@ namespace GymateMVC.Web.Controllers
 {
     public class RoutineController : Controller
     {
+        private readonly IRoutineService _routineService;
+        private readonly IExerciseService _exerciseService;
+        private readonly IExerciseTypeService _exerciseTypeService;
+
+        public RoutineController(IRoutineService routineService, IExerciseService exerciseService, IExerciseTypeService exerciseTypeService)
+        {
+            _routineService = routineService;
+            _exerciseService = exerciseService;
+            _exerciseTypeService = exerciseTypeService;
+        }
+
+        [HttpGet]
         public IActionResult Index()
         {
-            //Get All Routines
+            var model = _routineService.GetAllRoutines();
 
-            return View();
+            return View(model);
         }
 
+        [HttpGet]
         public IActionResult AddRoutine()
         {
-            return View();
+            var model = new NewRoutineVm();
+
+            return View(model);
         }
 
-        public IActionResult EditRoutine()
+        [HttpPost]
+        public IActionResult AddRoutine(NewRoutineVm newRoutineVm)
         {
-            return View();
+            var id = _routineService.AddRoutine(newRoutineVm);
+
+            return RedirectToAction("Index");
         }
 
-        public IActionResult DeleteRoutine()
+        [HttpGet]
+        public IActionResult EditRoutine(int id)
         {
-            return View();
+            var routine = _routineService.GetRoutineToNameEdit(id);
+
+            return View(routine);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditRoutine(NewRoutineVm model)
+        {
+            _routineService.UpdateRoutine(model);
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteRoutine(int id)
+        {
+            _routineService.DeleteRoutine(id);
+
+            return RedirectToAction("Index");
         }
     }
 }

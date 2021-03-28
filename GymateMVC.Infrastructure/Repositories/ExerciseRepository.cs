@@ -43,14 +43,14 @@ namespace GymateMVC.Infrastructure.Repositories
             return exercise;
         }
 
-        public IQueryable GetExercisesByTypeId(int exerciseTypeId)
+        public IQueryable<Exercise> GetExercisesByTypeId(int exerciseTypeId)
         {
             var exercises = _context.Exercises.Where(e => e.ExerciseTypeId == exerciseTypeId);
 
             return exercises;
         }
 
-        public IQueryable GetExercisesByRoutineId (int routineId)
+        public IQueryable<Exercise> GetExercisesByRoutineId (int routineId)
         {
             var exercises = _context.Exercises.Where(r => r.ExerciseRoutines.Any(er => er.RoutineId == routineId));
 
@@ -58,7 +58,7 @@ namespace GymateMVC.Infrastructure.Repositories
         }
         public IQueryable<Exercise> GetAllExercises()
         {
-            IQueryable<Exercise> exercises = _context.Exercises.Include(e => e.ExerciseType);
+            IQueryable<Exercise> exercises = _context.Exercises;
 
             return exercises;
         }

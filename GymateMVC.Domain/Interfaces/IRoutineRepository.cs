@@ -1,6 +1,7 @@
 ﻿using GymateMVC.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GymateMVC.Domain.Interfaces
@@ -13,6 +14,7 @@ namespace GymateMVC.Domain.Interfaces
 
         void DeleteRoutine(int id);
 
-        IEnumerable<Routine> GetAllRoutines();
+        IQueryable<Routine> GetAllRoutines();
+        void UpdateRoutineWithName(Routine routine);
     }
 }

@@ -3,6 +3,7 @@ using GymateMVC.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace GymateMVC.Application
@@ -13,7 +14,8 @@ namespace GymateMVC.Application
         {
             services.AddTransient<IExerciseTypeService, ExerciseTypeService>();
             services.AddTransient<IExerciseService, ExerciseService>();
-
+            services.AddTransient<IRoutineService, RoutineService>();
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
         }
     }

@@ -1,4 +1,5 @@
-﻿using GymateMVC.Application.Services;
+﻿using AutoMapper;
+using GymateMVC.Application.Services;
 using GymateMVC.Application.ViewModels.ExerciseTypeVm;
 using GymateMVC.Domain.Interfaces;
 using GymateMVC.Domain.Model;
@@ -49,6 +50,7 @@ namespace GymateMVC.Tests
             var exerciseTypesQuery = exerciseTypes.AsQueryable();
 
             var exerciseTypeRepo = new Mock<IExerciseTypeRepository>();
+            var mapper = new Mock<IMapper>();
 
             exerciseTypeRepo.Setup(r => r.GetAllExerciseTypes()).Returns(exerciseTypesQuery);
 
@@ -78,7 +80,7 @@ namespace GymateMVC.Tests
                 Count = 3                
             };
 
-            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object);
+            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object, mapper.Object);
 
             var result = objectUnderTest.GetAllExerciseTypes(3, 1, string.Empty);
 
@@ -121,6 +123,7 @@ namespace GymateMVC.Tests
             var exerciseTypesQuery = exerciseTypes.AsQueryable();
 
             var exerciseTypeRepo = new Mock<IExerciseTypeRepository>();
+            var mapper = new Mock<IMapper>();
 
             exerciseTypeRepo.Setup(r => r.GetAllExerciseTypes()).Returns(exerciseTypesQuery);
 
@@ -140,7 +143,7 @@ namespace GymateMVC.Tests
                 Count = 3
             };
 
-            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object);
+            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object, mapper.Object);
 
             var result = objectUnderTest.GetAllExerciseTypes(1, 1, string.Empty);
 
@@ -156,6 +159,7 @@ namespace GymateMVC.Tests
 
             var exerciseTypesQuery = exerciseTypes.AsQueryable();
 
+            var mapper = new Mock<IMapper>();
             var exerciseTypeRepo = new Mock<IExerciseTypeRepository>();
 
             exerciseTypeRepo.Setup(r => r.GetAllExerciseTypes()).Returns(exerciseTypesQuery);
@@ -169,7 +173,7 @@ namespace GymateMVC.Tests
                 Count = 0
             };
 
-            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object);
+            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object, mapper.Object);
 
             var result = objectUnderTest.GetAllExerciseTypes(1, 1, string.Empty);
 
@@ -206,8 +210,9 @@ namespace GymateMVC.Tests
         [Fact]
         public void Should_RepoGetAllExerciseTypes_BeCalled_WhenGetAllExerciseTypesCalled()
         {
+            var mapper = new Mock<IMapper>();
             var exerciseTypeRepo = new Mock<IExerciseTypeRepository>();
-            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object);
+            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object, mapper.Object);
 
             exerciseTypeRepo.Setup(r => r.GetAllExerciseTypes()).Returns(new List<ExerciseType>().AsQueryable());
 
@@ -226,10 +231,11 @@ namespace GymateMVC.Tests
             };
 
             var exerciseTypeRepo = new Mock<IExerciseTypeRepository>();
+            var mapper = new Mock<IMapper>();
 
             exerciseTypeRepo.Setup(r => r.AddExerciseType(It.IsAny<ExerciseType>())).Returns(1);
 
-            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object);
+            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object, mapper.Object);
 
             var result = objectUnderTest.AddExerciseType(exerciseTypeVm);
 
@@ -242,8 +248,9 @@ namespace GymateMVC.Tests
         public void Should_RepoUpdateExerciseTypeBeCalled_When_ServiceUpdateExerciseTypCalled()
         {
             var exerciseTypeRepo = new Mock<IExerciseTypeRepository>();
+            var mapper = new Mock<IMapper>();
 
-            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object);
+            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object, mapper.Object);
 
             var exerciseTypeVm = new NewExerciseTypeVm()
             {
@@ -288,6 +295,7 @@ namespace GymateMVC.Tests
             };
 
             var exerciseTypeRepo = new Mock<IExerciseTypeRepository>();
+            var mapper = new Mock<IMapper>();
 
             var exerciseTypesQuery = exerciseTypes.AsQueryable();
 
@@ -313,7 +321,7 @@ namespace GymateMVC.Tests
                 }
             };
 
-            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object);
+            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object, mapper.Object);
 
             var result = objectUnderTest.GetSelectListOfAllExerciseTypes(1);
 
@@ -349,8 +357,9 @@ namespace GymateMVC.Tests
             };
 
             var exerciseTypeRepo = new Mock<IExerciseTypeRepository>();
+            var mapper = new Mock<IMapper>();
 
-            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object);
+            var objectUnderTest = new ExerciseTypeService(exerciseTypeRepo.Object, mapper.Object);
 
             objectUnderTest.DeleteExerciseType(exerciseType.Id);
 

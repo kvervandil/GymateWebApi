@@ -1,0 +1,38 @@
+﻿@model GymateMVC.Application.ViewModels.RoutineVm.ListForRoutinesForListVm
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="AddRoutine">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var routine in Model.ListRoutinesForListVm) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => routine.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => routine.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "EditRoutine", new {  id=routine.Id }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "DeleteRoutine", new {  id=routine.Id  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -14,5 +14,6 @@ namespace GymateMVC.Domain.Interfaces
         ExerciseType GetExerciseTypeById(int id);
         ExerciseType GetExerciseTypeByName(string name);
         void UpdateExerciseType(ExerciseType exerciseType);
+        IQueryable<ExerciseType> GetExerciseTypesWithExercises();
     }
 }

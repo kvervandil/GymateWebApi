@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GymateMVC.Application.Interfaces;
+﻿using GymateMVC.Application.Interfaces;
 using GymateMVC.Application.ViewModels.ExerciseTypeVm;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

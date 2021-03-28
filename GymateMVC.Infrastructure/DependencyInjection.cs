@@ -13,6 +13,7 @@ namespace GymateMVC.Infrastructure
         {
             services.AddTransient<IExerciseTypeRepository, ExerciseTypeRepository>();
             services.AddTransient<IExerciseRepository, ExerciseRepository>();
+            services.AddTransient<IRoutineRepository, RoutineRepository>();
 
             return services;
         }

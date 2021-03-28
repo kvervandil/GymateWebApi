@@ -1,5 +1,6 @@
 ﻿using GymateMVC.Domain.Interfaces;
 using GymateMVC.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,11 @@ namespace GymateMVC.Infrastructure.Repositories
         public IQueryable<ExerciseType> GetAllExerciseTypes()
         {
             return _context.ExerciseTypes;
+        }
+
+        public IQueryable<ExerciseType> GetExerciseTypesWithExercises()
+        {
+            return _context.ExerciseTypes.Include(et => et.Exercises);
         }
 
         public ExerciseType GetExerciseTypeById(int id)

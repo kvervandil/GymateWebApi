@@ -14,6 +14,7 @@ namespace GymateMVC.Application.Interfaces
         NewExerciseTypeVm GetExerciseTypeForEdit(int id);
         void UpdateExerciseType(NewExerciseTypeVm model);
         void DeleteExerciseType(int id);
-        List<SelectListItem> GetSelectListOfAllExerciseTypes(int chosenExerciseTypeId);
+        List<SelectListItem> GetSelectListOfAllExerciseTypes(int chosenExerciseTypeId = 0);
+        ListOfExerciseTypesWithExercisesForRoutine GetAllExerciseTypesWithExercises();
     }
 }

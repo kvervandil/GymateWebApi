@@ -50,7 +50,7 @@ namespace GymateMVC.Web.Controllers
         {
             var model = new NewExerciseVm();
 
-            model.SelectListExerciseTypes = _exerciseTypeService.GetSelectListOfAllExerciseTypes(0);
+            model.SelectListExerciseTypes = _exerciseTypeService.GetSelectListOfAllExerciseTypes();
 
             return View(model);
         }
@@ -85,7 +85,6 @@ namespace GymateMVC.Web.Controllers
         public IActionResult DeleteExercise(int id)
         {
             _exerciseService.DeleteExercise(id);
-
 
             return RedirectToAction("Index");
         }
