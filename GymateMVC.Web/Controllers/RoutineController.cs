@@ -1,4 +1,5 @@
 ﻿using GymateMVC.Application.Interfaces;
+using GymateMVC.Application.ViewModels.ExerciseVm;
 using GymateMVC.Application.ViewModels.RoutineVm;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -60,6 +61,28 @@ namespace GymateMVC.Web.Controllers
             _routineService.UpdateRoutine(model);
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult ShowDetails(int id)
+        {
+            var routine = _routineService.GetRoutine(id);
+
+            return View(routine);
+        }
+
+        [HttpGet]
+        public IActionResult AddExercise(int routineId)
+        {
+            ExerciseToAddForRoutineVm model = new ExerciseToAddForRoutineVm();
+
+            model.SelectListExercise = _exerciseService.GetSelectListOfAllExercises();
+
+            model.RoutineId = routineId;
+
+            var routine = _routineService.GetRoutine(routineId);
+
+            return View(model);
         }
 
         public IActionResult DeleteRoutine(int id)

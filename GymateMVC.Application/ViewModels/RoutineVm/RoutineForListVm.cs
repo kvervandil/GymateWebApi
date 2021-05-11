@@ -26,8 +26,8 @@ namespace GymateMVC.Application.ViewModels.RoutineVm
                 }
             });
 
-
+            profile.CreateMap<Exercise, ExerciseForListVm>()
+                .ForMember(vm => vm.ExerciseTypeName, opt => opt.MapFrom(model => model.ExerciseType.Name));
         }
-
     }
 }

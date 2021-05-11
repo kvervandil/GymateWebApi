@@ -29,7 +29,8 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "EditRoutine", new {  id=routine.Id }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "ShowDetails", new { id=routine.Id }) |
+                @Html.ActionLink("Add Exercise", "AddExercise", new { routineId=routine.Id }) |
                 @Html.ActionLink("Delete", "DeleteRoutine", new {  id=routine.Id  })
             </td>
         </tr>

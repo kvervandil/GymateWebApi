@@ -4,6 +4,7 @@ using GymateMVC.Application.Interfaces;
 using GymateMVC.Application.ViewModels.ExerciseVm;
 using GymateMVC.Domain.Interfaces;
 using GymateMVC.Domain.Model;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,6 +99,27 @@ namespace GymateMVC.Application.Services
         public void DeleteExercise(int id)
         {
             _exerciseRepo.DeleteExercise(id);
+        }
+
+        public List<SelectListItem> GetSelectListOfAllExercises(int chosenExerciseId = 0)
+        {
+            List<SelectListItem> selectedItems = new List<SelectListItem>();
+
+            var exercises = _exerciseRepo.GetAllExercises();
+
+            foreach(var exercise in exercises)
+            {
+                SelectListItem selectedExercise = new SelectListItem { Value = exercise.Id.ToString(), Text = exercise.Name };
+
+                if (exercise.Id == chosenExerciseId)
+                {
+                    selectedExercise.Selected = true;
+                }
+
+                selectedItems.Add(selectedExercise);
+            }
+
+            return selectedItems;
         }
     }
 }

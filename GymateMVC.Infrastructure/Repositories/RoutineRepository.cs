@@ -19,8 +19,14 @@ namespace GymateMVC.Infrastructure.Repositories
 
         public Routine GetRoutineById(int id)
         {
-            Routine routine = _context.Routines.Find(id);
+            //Routine routine = _context.Routines.Find(id);
 
+            var routine = _context.Routines.Where(routine => routine.Id == id)
+                .Include(routine => routine.ExerciseRoutines)
+                .SingleOrDefault();
+
+            //Routine routine = _context.Routines.Include(routine => routine.ExerciseRoutines).FirstOrDefault(routine => routine.Id == id);
+            
             return routine;
         }
 
@@ -48,10 +54,10 @@ namespace GymateMVC.Infrastructure.Repositories
             }
         }
 
-        private IQueryable<ExerciseRoutine> GetExerciseRoutineByRoutineId(int id)
+        private ExerciseRoutine GetExerciseRoutineByRoutineId(int id)
         {
-            //return _context.ExerciseRoutine.Find(id);
-            return _context.ExerciseRoutine.Where(er => er.RoutineId == id);
+            return _context.ExerciseRoutine.Find(id);
+            //return _context.ExerciseRoutine.Where(er => er.RoutineId == id);
         }
 
         public IQueryable<Routine> GetAllRoutines()

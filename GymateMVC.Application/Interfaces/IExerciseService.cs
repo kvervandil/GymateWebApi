@@ -1,4 +1,5 @@
 ﻿using GymateMVC.Application.ViewModels.ExerciseVm;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace GymateMVC.Application.Interfaces
         NewExerciseVm GetExerciseForEdit(int id);
         void UpdateExercise(NewExerciseVm model);
         void DeleteExercise(int id);
+        List<SelectListItem> GetSelectListOfAllExercises(int chosenExerciseId = 0);
     }
 }

@@ -62,11 +62,11 @@ namespace GymateMVC.Application.Services
         {
             var routine = _routineRepository.GetRoutineById(id);
 
-            var exercises = _exerciseRepository.GetExercisesByRoutineId(id).ProjectTo<ExerciseForListVm>(_mapper.ConfigurationProvider).ToList();
+            var exercises = _exerciseRepository.GetExercisesByRoutineId(id);
 
             var routineForListVm = _mapper.Map<RoutineForListVm>(routine);
 
-            routineForListVm.ExercisesForListVm = exercises;
+            routineForListVm.ExercisesForListVm = exercises.ProjectTo<ExerciseForListVm>(_mapper.ConfigurationProvider).ToList();
 
             return routineForListVm;
         }

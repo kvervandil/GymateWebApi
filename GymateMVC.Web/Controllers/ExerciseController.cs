@@ -72,7 +72,7 @@ namespace GymateMVC.Web.Controllers
 
             return View(exercise);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult EditExercise(NewExerciseVm model)
