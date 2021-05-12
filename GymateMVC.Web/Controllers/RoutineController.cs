@@ -78,11 +78,23 @@ namespace GymateMVC.Web.Controllers
 
             model.SelectListExercise = _exerciseService.GetSelectListOfAllExercises();
 
-            model.RoutineId = routineId;
+            model.RoutineId = routineId;            
 
             var routine = _routineService.GetRoutine(routineId);
 
+            model.RoutineName = routine.Name;
+
+            model.ExercisesForRoutine = routine.ExercisesForListVm;
+
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult AddExercise(ExerciseToAddForRoutineVm model)
+        {
+            var id = _routineService.AddExercise(model);
+
+            return RedirectToAction("Index");
         }
 
         public IActionResult DeleteRoutine(int id)

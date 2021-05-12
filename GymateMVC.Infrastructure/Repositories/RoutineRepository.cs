@@ -60,6 +60,19 @@ namespace GymateMVC.Infrastructure.Repositories
             //return _context.ExerciseRoutine.Where(er => er.RoutineId == id);
         }
 
+        public void UpdateRoutineWithExercise(int routineId, ExerciseRoutine exerciseRoutine)
+        {
+            var routine = GetRoutineById(routineId);
+
+            _context.ExerciseRoutine.Add(exerciseRoutine);
+
+            routine.ExerciseRoutines.Add(exerciseRoutine);
+
+            _context.Attach(routine);
+
+            _context.SaveChanges();
+        }
+
         public IQueryable<Routine> GetAllRoutines()
         {
             return _context.Routines;

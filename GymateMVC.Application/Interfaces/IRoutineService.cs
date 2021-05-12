@@ -13,5 +13,6 @@ namespace GymateMVC.Application.Interfaces
         void UpdateRoutine(NewRoutineVm routineVm);
         void DeleteRoutine(int id);
         NewRoutineVm GetRoutineToNameEdit(int id);
+        int AddExercise(ExerciseToAddForRoutineVm model);
     }
 }

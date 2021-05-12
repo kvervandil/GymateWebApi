@@ -14,5 +14,6 @@ namespace GymateMVC.Domain.Interfaces
         IQueryable<Exercise> GetExercisesByRoutineId(int routineId);
         IQueryable<Exercise> GetAllExercises();
         void UpdateExercise(Exercise exercise);
+        void UpdateExerciseWithExerciseRoutine(Exercise exercise, ExerciseRoutine exerciseRoutine);
     }
 }

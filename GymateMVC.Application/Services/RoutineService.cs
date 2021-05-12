@@ -90,5 +90,26 @@ namespace GymateMVC.Application.Services
 
             _routineRepository.UpdateRoutineWithName(routine);
         }
+
+        public int AddExercise(ExerciseToAddForRoutineVm model)
+        {
+            var exercise = _exerciseRepository.GetExerciseById(model.ExerciseId);
+
+            var routine = _routineRepository.GetRoutineById(model.RoutineId);
+
+            ExerciseRoutine exerciseRoutine = new ExerciseRoutine
+            {
+                ExerciseId = exercise.Id,
+                Exercise = exercise,
+                RoutineId = routine.Id,
+                Routine = routine,
+            };
+
+            _routineRepository.UpdateRoutineWithExercise(routine.Id, exerciseRoutine);
+
+            _exerciseRepository.UpdateExerciseWithExerciseRoutine(exercise, exerciseRoutine);
+
+            return routine.Id;
+        }
     }
 }
