@@ -1,10 +1,12 @@
 ﻿using GymateMVC.Application.Interfaces;
 using GymateMVC.Application.ViewModels.ExerciseTypeVm;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace GymateMVC.Web.Controllers
 {
+    [Route("api/exerciseTypes")]
     public class ExerciseTypeController : Controller
     {
         private readonly IExerciseTypeService _exerciseTypeService;
@@ -17,6 +19,8 @@ namespace GymateMVC.Web.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get()
         {
             var model = _exerciseTypeService.GetAllExerciseTypes(10, 1, string.Empty);
@@ -31,6 +35,8 @@ namespace GymateMVC.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Create(NewExerciseTypeVm model)
         {
             var id = _exerciseTypeService.AddExerciseType(model);
@@ -45,6 +51,7 @@ namespace GymateMVC.Web.Controllers
 
         [HttpPut("{id}")]
         [ValidateAntiForgeryToken]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult Put([FromBody] NewExerciseTypeVm model)
         {
             _exerciseTypeService.UpdateExerciseType(model);
@@ -52,6 +59,7 @@ namespace GymateMVC.Web.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult Delete(int id)
         {
             _exerciseTypeService.DeleteExerciseType(id);

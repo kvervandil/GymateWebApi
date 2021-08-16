@@ -25,7 +25,7 @@ namespace GymateWebApi.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Index()
+        public IActionResult Get()
         {
             var model = _exerciseService.GetAllExercises(10, 1, string.Empty);
 
@@ -34,7 +34,7 @@ namespace GymateWebApi.Api.Controllers
                 return NotFound();
             }
 
-            return Ok();
+            return Ok(model);
         }
 
         [HttpPost]
@@ -54,10 +54,10 @@ namespace GymateWebApi.Api.Controllers
 
         
         // POST: ExerciseController/Edit/5
-        [HttpPost]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult Edit(NewExerciseVm model)
+        public IActionResult Put(NewExerciseVm model)
         {             
             _exerciseService.UpdateExercise(model);
 
@@ -67,6 +67,7 @@ namespace GymateWebApi.Api.Controllers
 
         [HttpDelete("{id}")]
         [ValidateAntiForgeryToken]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public ActionResult Delete(int id)
         {
             _exerciseService.DeleteExercise(id);
