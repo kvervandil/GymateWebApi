@@ -35,7 +35,9 @@ namespace GymateWebApi.Api
                 builder.AllowAnyOrigin().AllowAnyMethod();
             }));
 
-            services.AddDbContext<Context>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
+            services.AddDbContext<Context>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddAutoMapper(typeof(Startup));
             services.AddInfrastructure();

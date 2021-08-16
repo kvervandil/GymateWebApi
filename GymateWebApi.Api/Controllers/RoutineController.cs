@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace GymateMVC.Web.Controllers
 {
+    [Route("api/routine")]
     public class RoutineController : Controller
     {
         private readonly IRoutineService _routineService;
