@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GymateMVC.Domain\GymateMVC.Domain.csproj" />
+    <ProjectReference Include="..\GymateMVC.Domain\Gymate.Domain.csproj" />
   </ItemGroup>
 
 </Project>

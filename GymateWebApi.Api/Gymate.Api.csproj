@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GymateMVC.Application\GymateMVC.Application.csproj" />
-    <ProjectReference Include="..\GymateMVC.Infrastructure\GymateMVC.Infrastructure.csproj" />
+    <ProjectReference Include="..\GymateMVC.Application\Gymate.Application.csproj" />
+    <ProjectReference Include="..\GymateMVC.Infrastructure\Gymate.Infrastructure.csproj" />
   </ItemGroup>
 
 
