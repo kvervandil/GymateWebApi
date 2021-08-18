@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gymate.Infrastructure.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210314102841_ExerciseWithoutLoad")]
-    partial class ExerciseWithoutLoad
+    [Migration("20210206152912_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,28 @@ namespace Gymate.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.Exercise", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.DayOfWeek", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoutineId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoutineId")
+                        .IsUnique();
+
+                    b.ToTable("DaysOfWeek");
+                });
+
+            modelBuilder.Entity("Gymate.Domain.Model.Exercise", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -31,8 +52,17 @@ namespace Gymate.Infrastructure.Migrations
                     b.Property<int>("ExerciseTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("LoadInKg")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Reps")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Sets")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -41,7 +71,7 @@ namespace Gymate.Infrastructure.Migrations
                     b.ToTable("Exercises");
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.ExerciseRoutine", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.ExerciseRoutine", b =>
                 {
                     b.Property<int>("ExerciseId")
                         .HasColumnType("int");
@@ -56,7 +86,7 @@ namespace Gymate.Infrastructure.Migrations
                     b.ToTable("ExerciseRoutine");
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.ExerciseType", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.ExerciseType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,41 +101,15 @@ namespace Gymate.Infrastructure.Migrations
                     b.ToTable("ExerciseTypes");
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.LoadForExercise", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.Routine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("ExerciseId")
+                    b.Property<int>("DayOfWeekId")
                         .HasColumnType("int");
-
-                    b.Property<int>("LoadInKg")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sets")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.ToTable("LoadForExercise");
-                });
-
-            modelBuilder.Entity("GymateMVC.Domain.Model.Routine", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -312,35 +316,37 @@ namespace Gymate.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.Exercise", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.DayOfWeek", b =>
                 {
-                    b.HasOne("GymateMVC.Domain.Model.ExerciseType", "ExerciseType")
+                    b.HasOne("Gymate.Domain.Model.Routine", "Routine")
+                        .WithOne("DayOfWeek")
+                        .HasForeignKey("Gymate.Domain.Model.DayOfWeek", "RoutineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Gymate.Domain.Model.Exercise", b =>
+                {
+                    b.HasOne("Gymate.Domain.Model.ExerciseType", "ExerciseType")
                         .WithMany("Exercises")
                         .HasForeignKey("ExerciseTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.ExerciseRoutine", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.ExerciseRoutine", b =>
                 {
-                    b.HasOne("GymateMVC.Domain.Model.Exercise", "Exercise")
+                    b.HasOne("Gymate.Domain.Model.Exercise", "Exercise")
                         .WithMany("ExerciseRoutines")
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GymateMVC.Domain.Model.Routine", "Routine")
+                    b.HasOne("Gymate.Domain.Model.Routine", "Routine")
                         .WithMany("ExerciseRoutines")
                         .HasForeignKey("RoutineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("GymateMVC.Domain.Model.LoadForExercise", b =>
-                {
-                    b.HasOne("GymateMVC.Domain.Model.Exercise", "Exercise")
-                        .WithMany("Load")
-                        .HasForeignKey("ExerciseId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

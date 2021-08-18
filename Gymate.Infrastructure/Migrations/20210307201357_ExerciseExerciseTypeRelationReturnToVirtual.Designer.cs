@@ -21,7 +21,7 @@ namespace Gymate.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.Exercise", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.Exercise", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,7 +50,7 @@ namespace Gymate.Infrastructure.Migrations
                     b.ToTable("Exercises");
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.ExerciseRoutine", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.ExerciseRoutine", b =>
                 {
                     b.Property<int>("ExerciseId")
                         .HasColumnType("int");
@@ -65,7 +65,7 @@ namespace Gymate.Infrastructure.Migrations
                     b.ToTable("ExerciseRoutine");
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.ExerciseType", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.ExerciseType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +80,7 @@ namespace Gymate.Infrastructure.Migrations
                     b.ToTable("ExerciseTypes");
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.Routine", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.Routine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -298,24 +298,24 @@ namespace Gymate.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.Exercise", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.Exercise", b =>
                 {
-                    b.HasOne("GymateMVC.Domain.Model.ExerciseType", "ExerciseType")
+                    b.HasOne("Gymate.Domain.Model.ExerciseType", "ExerciseType")
                         .WithMany("Exercises")
                         .HasForeignKey("ExerciseTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GymateMVC.Domain.Model.ExerciseRoutine", b =>
+            modelBuilder.Entity("Gymate.Domain.Model.ExerciseRoutine", b =>
                 {
-                    b.HasOne("GymateMVC.Domain.Model.Exercise", "Exercise")
+                    b.HasOne("Gymate.Domain.Model.Exercise", "Exercise")
                         .WithMany("ExerciseRoutines")
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GymateMVC.Domain.Model.Routine", "Routine")
+                    b.HasOne("Gymate.Domain.Model.Routine", "Routine")
                         .WithMany("ExerciseRoutines")
                         .HasForeignKey("RoutineId")
                         .OnDelete(DeleteBehavior.Cascade)
