@@ -1,12 +1,9 @@
-﻿using GymateMVC.Domain.Interfaces;
-using GymateMVC.Domain.Model;
+﻿using Gymate.Domain.Interfaces;
+using Gymate.Domain.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace GymateMVC.Infrastructure.Repositories
+namespace Gymate.Infrastructure.Repositories
 {
     public class RoutineRepository : IRoutineRepository
     {

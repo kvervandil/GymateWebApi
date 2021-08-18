@@ -1,17 +1,14 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using GymateMVC.Application.Interfaces;
-using GymateMVC.Application.ViewModels.ExerciseTypeVm;
-using GymateMVC.Application.ViewModels.ExerciseVm;
-using GymateMVC.Domain.Interfaces;
-using GymateMVC.Domain.Model;
+using Gymate.Application.Interfaces;
+using Gymate.Application.ViewModels.ExerciseTypeVm;
+using Gymate.Domain.Interfaces;
+using Gymate.Domain.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace GymateMVC.Application.Services
+namespace Gymate.Application.Services
 {
     public class ExerciseTypeService : IExerciseTypeService
     {

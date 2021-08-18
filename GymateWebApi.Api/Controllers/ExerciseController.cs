@@ -1,13 +1,10 @@
-﻿using GymateMVC.Application.Interfaces;
-using GymateMVC.Application.ViewModels.ExerciseVm;
+﻿using Gymate.Application.Interfaces;
+using Gymate.Application.ViewModels.ExerciseVm;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace GymateWebApi.Api.Controllers
+namespace Gymate.Api.Controllers
 {
     [Route("api/exercises")]
     public class ExerciseController : Controller

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace GymateMVC.Infrastructure.Migrations
+namespace Gymate.Infrastructure.Migrations
 {
     public partial class ExerciseExerciseTypeRelation : Migration
     {

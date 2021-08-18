@@ -1,8 +1,7 @@
-﻿using GymateMVC.Domain.Model;
-using System.Collections.Generic;
+﻿using Gymate.Domain.Model;
 using System.Linq;
 
-namespace GymateMVC.Domain.Interfaces
+namespace Gymate.Domain.Interfaces
 {
     public interface IExerciseRepository
     {

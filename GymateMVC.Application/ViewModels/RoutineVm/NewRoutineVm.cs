@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
-using GymateMVC.Application.Mapping;
-using GymateMVC.Application.ViewModels.ExerciseTypeVm;
-using GymateMVC.Domain.Model;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Gymate.Application.Mapping;
+using Gymate.Domain.Model;
 
-namespace GymateMVC.Application.ViewModels.RoutineVm
+namespace Gymate.Application.ViewModels.RoutineVm
 {
     public class NewRoutineVm : IMapFrom<Routine>
     {

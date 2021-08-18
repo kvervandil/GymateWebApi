@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace GymateMVC.Application.ViewModels.RoutineVm
+namespace Gymate.Application.ViewModels.RoutineVm
 {
     public class ListForRoutinesForListVm
     {

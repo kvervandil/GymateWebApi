@@ -10,13 +10,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using GymateMVC.Infrastructure;
-using GymateMVC.Domain.Interfaces;
-using GymateMVC.Infrastructure.Repositories;
-using GymateMVC.Application;
+using Gymate.Infrastructure;
+using Gymate.Domain.Interfaces;
+using Gymate.Infrastructure.Repositories;
+using Gymate.Application;
+using Gymate.Application.ViewModels.ExerciseTypeVm;
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using GymateMVC.Application.ViewModels.ExerciseTypeVm;
 using Microsoft.Extensions.Logging;
 
 namespace GymateMVC.Web

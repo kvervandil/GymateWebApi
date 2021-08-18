@@ -1,8 +1,8 @@
-﻿using GymateMVC.Domain.Model;
+﻿using Gymate.Domain.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace GymateMVC.Infrastructure
+namespace Gymate.Infrastructure
 {
     public class Context : IdentityDbContext
     {

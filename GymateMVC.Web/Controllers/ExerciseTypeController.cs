@@ -1,5 +1,5 @@
-﻿using GymateMVC.Application.Interfaces;
-using GymateMVC.Application.ViewModels.ExerciseTypeVm;
+﻿using Gymate.Application.Interfaces;
+using Gymate.Application.ViewModels.ExerciseTypeVm;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

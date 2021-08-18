@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GymateMVC.Domain.Model
+﻿namespace Gymate.Domain.Model
 {
     public class LoadForExercise
     {

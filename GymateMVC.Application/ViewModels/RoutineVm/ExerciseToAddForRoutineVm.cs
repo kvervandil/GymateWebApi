@@ -1,10 +1,8 @@
-﻿using GymateMVC.Application.ViewModels.ExerciseVm;
+﻿using Gymate.Application.ViewModels.ExerciseVm;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace GymateMVC.Application.ViewModels.RoutineVm
+namespace Gymate.Application.ViewModels.RoutineVm
 {
     public class ExerciseToAddForRoutineVm
     {

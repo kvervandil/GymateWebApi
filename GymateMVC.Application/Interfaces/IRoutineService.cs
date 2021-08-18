@@ -1,9 +1,6 @@
-﻿using GymateMVC.Application.ViewModels.RoutineVm;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Gymate.Application.ViewModels.RoutineVm;
 
-namespace GymateMVC.Application.Interfaces
+namespace Gymate.Application.Interfaces
 {
     public interface IRoutineService
     {

@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
-namespace GymateMVC.Application.Mapping
+namespace Gymate.Application.Mapping
 {
     public class MappingProfile : Profile
     {

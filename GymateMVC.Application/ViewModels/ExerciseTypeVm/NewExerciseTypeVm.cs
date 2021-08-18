@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using FluentValidation;
-using GymateMVC.Application.Mapping;
-using GymateMVC.Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Gymate.Application.Mapping;
+using Gymate.Domain.Model;
 
-namespace GymateMVC.Application.ViewModels.ExerciseTypeVm
+namespace Gymate.Application.ViewModels.ExerciseTypeVm
 {
     public class NewExerciseTypeVm : IMapFrom<ExerciseType>
     {

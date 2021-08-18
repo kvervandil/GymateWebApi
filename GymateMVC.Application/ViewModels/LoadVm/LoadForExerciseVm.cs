@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
-using GymateMVC.Application.Mapping;
-using GymateMVC.Domain.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Gymate.Application.Mapping;
+using Gymate.Domain.Model;
 
-namespace GymateMVC.Application.ViewModels.LoadVm
+namespace Gymate.Application.ViewModels.LoadVm
 {
     public class LoadForExerciseVm : IMapFrom<LoadForExercise>
     {

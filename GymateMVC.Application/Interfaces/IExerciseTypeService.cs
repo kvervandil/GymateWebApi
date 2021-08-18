@@ -1,11 +1,8 @@
-﻿using GymateMVC.Application.ViewModels.ExerciseTypeVm;
-using GymateMVC.Application.ViewModels.ExerciseVm;
+﻿using Gymate.Application.ViewModels.ExerciseTypeVm;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace GymateMVC.Application.Interfaces
+namespace Gymate.Application.Interfaces
 {
     public interface IExerciseTypeService
     {

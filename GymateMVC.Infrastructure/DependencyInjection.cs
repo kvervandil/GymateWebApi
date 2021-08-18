@@ -1,11 +1,8 @@
-﻿using GymateMVC.Domain.Interfaces;
-using GymateMVC.Infrastructure.Repositories;
+﻿using Gymate.Domain.Interfaces;
+using Gymate.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace GymateMVC.Infrastructure
+namespace Gymate.Infrastructure
 {
     public static class DependencyInjection
     {

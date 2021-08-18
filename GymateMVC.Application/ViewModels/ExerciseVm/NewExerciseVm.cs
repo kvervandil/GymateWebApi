@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
-using GymateMVC.Application.Mapping;
-using GymateMVC.Application.ViewModels.ExerciseTypeVm;
-using GymateMVC.Domain.Model;
+using Gymate.Application.Mapping;
+using Gymate.Domain.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace GymateMVC.Application.ViewModels.ExerciseVm
+namespace Gymate.Application.ViewModels.ExerciseVm
 {
     public class NewExerciseVm : IMapFrom<Exercise>
     {

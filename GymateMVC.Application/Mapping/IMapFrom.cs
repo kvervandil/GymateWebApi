@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace GymateMVC.Application.Mapping
+namespace Gymate.Application.Mapping
 {
     public interface IMapFrom<T>
     {

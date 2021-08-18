@@ -1,14 +1,9 @@
-﻿using GymateMVC.Application.Interfaces;
-using GymateMVC.Application.ViewModels.ExerciseVm;
-using GymateMVC.Application.ViewModels.RoutineVm;
+﻿using Gymate.Application.Interfaces;
+using Gymate.Application.ViewModels.RoutineVm;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace GymateMVC.Web.Controllers
+namespace Gymate.Api.Controllers
 {
     [Route("api/routines")]
     public class RoutineController : Controller

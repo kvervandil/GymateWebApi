@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
-using GymateMVC.Application.Mapping;
-using GymateMVC.Application.ViewModels.ExerciseVm;
-using GymateMVC.Domain.Model;
-using System;
+using Gymate.Application.Mapping;
+using Gymate.Application.ViewModels.ExerciseVm;
+using Gymate.Domain.Model;
 using System.Collections.Generic;
-using System.Text;
 
-namespace GymateMVC.Application.ViewModels.ExerciseTypeVm
+namespace Gymate.Application.ViewModels.ExerciseTypeVm
 {
     public class ExerciseTypeWithExercisesForRoutineVm : IMapFrom<ExerciseType>
     {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using GymateMVC.Application.Interfaces;
-using GymateMVC.Application.ViewModels.ExerciseTypeVm;
-using GymateMVC.Application.ViewModels.ExerciseVm;
+using Gymate.Application.Interfaces;
+using Gymate.Application.ViewModels.ExerciseTypeVm;
+using Gymate.Application.ViewModels.ExerciseVm;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymateMVC.Web.Controllers

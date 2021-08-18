@@ -1,17 +1,13 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using GymateMVC.Application.Interfaces;
-using GymateMVC.Application.ViewModels.ExerciseVm;
-using GymateMVC.Application.ViewModels.RoutineVm;
-using GymateMVC.Domain.Interfaces;
-using GymateMVC.Domain.Model;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
+using Gymate.Application.Interfaces;
+using Gymate.Application.ViewModels.ExerciseVm;
+using Gymate.Application.ViewModels.RoutineVm;
+using Gymate.Domain.Interfaces;
+using Gymate.Domain.Model;
 using System.Linq;
-using System.Text;
 
-namespace GymateMVC.Application.Services
+namespace Gymate.Application.Services
 {
     class RoutineService : IRoutineService
     {

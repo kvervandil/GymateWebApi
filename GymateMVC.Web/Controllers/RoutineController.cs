@@ -1,6 +1,6 @@
-﻿using GymateMVC.Application.Interfaces;
-using GymateMVC.Application.ViewModels.ExerciseVm;
-using GymateMVC.Application.ViewModels.RoutineVm;
+﻿using Gymate.Application.Interfaces;
+using Gymate.Application.ViewModels.ExerciseVm;
+using Gymate.Application.ViewModels.RoutineVm;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

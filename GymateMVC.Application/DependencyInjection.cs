@@ -1,12 +1,9 @@
-﻿using GymateMVC.Application.Interfaces;
-using GymateMVC.Application.Services;
+﻿using Gymate.Application.Interfaces;
+using Gymate.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
-namespace GymateMVC.Application
+namespace Gymate.Application
 {
     public static class DependencyInjection
     {
