@@ -21,7 +21,7 @@ namespace Gymate.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get()
+        public ActionResult Get()
         {
             var model = _exerciseTypeService.GetAllExerciseTypes(10, 1, string.Empty);
 
@@ -37,7 +37,7 @@ namespace Gymate.Api.Controllers
         [ValidateAntiForgeryToken]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Create(NewExerciseTypeVm model)
+        public ActionResult Create(NewExerciseTypeVm model)
         {
             var id = _exerciseTypeService.AddExerciseType(model);
 
@@ -52,7 +52,7 @@ namespace Gymate.Api.Controllers
         [HttpPut("{id}")]
         [ValidateAntiForgeryToken]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Put([FromBody] NewExerciseTypeVm model)
+        public ActionResult Put([FromBody] NewExerciseTypeVm model)
         {
             _exerciseTypeService.UpdateExerciseType(model);
             return NoContent();
@@ -60,7 +60,7 @@ namespace Gymate.Api.Controllers
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult Delete(int id)
+        public ActionResult Delete(int id)
         {
             _exerciseTypeService.DeleteExerciseType(id);
 

@@ -22,7 +22,7 @@ namespace Gymate.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get()
+        public ActionResult Get()
         {
             var model = _exerciseService.GetAllExercises(10, 1, string.Empty);
 
@@ -37,7 +37,7 @@ namespace Gymate.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Create([FromBody] NewExerciseVm model)
+        public ActionResult Create([FromBody] NewExerciseVm model)
         {
             var id = _exerciseService.AddExercise(model);
 
@@ -54,7 +54,7 @@ namespace Gymate.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Put(NewExerciseVm model)
+        public ActionResult Put(NewExerciseVm model)
         {             
             _exerciseService.UpdateExercise(model);
 

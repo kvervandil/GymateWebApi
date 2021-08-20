@@ -19,17 +19,17 @@ namespace Gymate.Api.Controllers
             _exerciseTypeService = exerciseTypeService;
         }
 
-        [HttpGet]        
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Get()
+        public ActionResult Get()
         {
             var model = _routineService.GetAllRoutines();
 
             if (model.Count == 0)
-	        {
+            {
                 return NotFound();
-	        }
+            }
 
             return Ok(model);
         }
@@ -37,14 +37,14 @@ namespace Gymate.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Create(NewRoutineVm newRoutineVm)
+        public ActionResult Create(NewRoutineVm model)
         {
-            var id = _routineService.AddRoutine(newRoutineVm);
+            var id = _routineService.AddRoutine(model);
 
             if (id == 0)
-	        {
+            {
                 return BadRequest();
-	        }
+            }
 
             return Created(nameof(Get), id);
         }
@@ -53,7 +53,7 @@ namespace Gymate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ValidateAntiForgeryToken]
-        public IActionResult EditRoutine(NewRoutineVm model)
+        public ActionResult Put(NewRoutineVm model)
         {
             _routineService.UpdateRoutine(model);
 
@@ -62,31 +62,31 @@ namespace Gymate.Api.Controllers
 
         [HttpGet("id")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult Details(int id)
+        public ActionResult Get(int id)
         {
             var routine = _routineService.GetRoutine(id);
 
             return Ok(routine);
         }
-                
-        [HttpPost]
+
+/*        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult AddExercise(ExerciseToAddForRoutineVm model)
+        public ActionResult Create(ExerciseToAddForRoutineVm model)
         {
             var id = _routineService.AddExercise(model);
 
-            if(id == 0)
+            if (id == 0)
             {
                 return BadRequest();
             }
 
             return Created(nameof(Get), id);
-        }
+        }*/
 
         [HttpDelete("id")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public IActionResult DeleteRoutine(int id)
+        public ActionResult Delete(int id)
         {
             _routineService.DeleteRoutine(id);
 
