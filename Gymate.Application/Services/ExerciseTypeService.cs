@@ -2,11 +2,14 @@
 using AutoMapper.QueryableExtensions;
 using Gymate.Application.Interfaces;
 using Gymate.Application.ViewModels.ExerciseTypeVm;
+using Gymate.Application.ViewModels.General;
 using Gymate.Infrastructure.Entity.Interfaces;
 using Gymate.Infrastructure.Entity.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Gymate.Application.Services
 {
@@ -39,24 +42,23 @@ namespace Gymate.Application.Services
             _exerciseTypeRepo.DeleteExerciseType(id);
         }
 
-        public ListForExerciseTypeListVm GetAllExerciseTypes(int pageSize, int pageNo, string searchString)
+        public async Task<PagedResultDto<ExerciseTypeForListVm>> GetAllExerciseTypes(int pageSize, int pageNo, string searchString, CancellationToken cancellationToken)
         {
-            var exerciseTypes = _exerciseTypeRepo.GetAllExerciseTypes().Where(et => et.Name.StartsWith(searchString))
-                .ProjectTo<ExerciseTypeForListVm>(_mapper.ConfigurationProvider).ToList();
+            var exerciseTypes = await _exerciseTypeRepo.GetExerciseTypes(pageSize, pageNo, searchString, cancellationToken);
 
-            var exerciseTypesToShow = exerciseTypes.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-            var listForExerciseTypesToShow = new List<ExerciseTypeForListVm>();
+            var noOfExerciseTypes = await _exerciseTypeRepo.GetNoOfExerciseTypes(cancellationToken);
 
-            ListForExerciseTypeListVm listForExerciseTypeListVm = new ListForExerciseTypeListVm()
+            var exerciseTypesVm = _mapper.Map<List<ExerciseTypeForListVm>>(exerciseTypes);
+
+            var exerciseTypesForList = new PagedResultDto<ExerciseTypeForListVm>
             {
-                ListForExerciseTypeList = exerciseTypesToShow,
-                PageSize = pageSize,
-                CurrentPage = pageNo,
-                SearchString = searchString,
-                Count = exerciseTypes.Count()
+                Items = exerciseTypesVm,
+                CurentPage = pageNo,
+                Count = noOfExerciseTypes,
+                PageSize = pageSize
             };
 
-            return listForExerciseTypeListVm;
+            return exerciseTypesForList;
         }
 
         public NewExerciseTypeVm GetExerciseTypeForEdit(int id)
