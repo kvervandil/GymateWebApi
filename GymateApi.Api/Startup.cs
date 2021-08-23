@@ -2,7 +2,6 @@ using Gymate.Application;
 using Gymate.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,9 +28,7 @@ namespace Gymate.Api
                 builder.AllowAnyOrigin().AllowAnyMethod();
             }));
 
-            services.AddDbContext<Context>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddContext(Configuration.GetConnectionString("DefaultConnection"));
 
             services.AddAutoMapper(typeof(Startup));
             services.AddInfrastructure();
