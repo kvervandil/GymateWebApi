@@ -3,8 +3,8 @@ using AutoMapper.QueryableExtensions;
 using Gymate.Application.Interfaces;
 using Gymate.Application.ViewModels.ExerciseVm;
 using Gymate.Application.ViewModels.RoutineVm;
-using Gymate.Domain.Interfaces;
-using Gymate.Domain.Model;
+using Gymate.Infrastructure.Entity.Interfaces;
+using Gymate.Infrastructure.Entity.Model;
 using System.Linq;
 
 namespace Gymate.Application.Services

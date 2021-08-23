@@ -1,7 +1,7 @@
-﻿using Gymate.Domain.Model;
+﻿using Gymate.Infrastructure.Entity.Model;
 using System.Linq;
 
-namespace Gymate.Domain.Interfaces
+namespace Gymate.Infrastructure.Entity.Interfaces
 {
     public interface IExerciseTypeRepository
     {

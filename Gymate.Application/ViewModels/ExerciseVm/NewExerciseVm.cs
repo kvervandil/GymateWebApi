@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Gymate.Application.Mapping;
-using Gymate.Domain.Model;
+using Gymate.Infrastructure.Entity.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 

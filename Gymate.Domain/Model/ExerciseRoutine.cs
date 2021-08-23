@@ -1,4 +1,4 @@
-﻿namespace Gymate.Domain.Model
+﻿namespace Gymate.Infrastructure.Entity.Model
 {
     public class ExerciseRoutine
     {

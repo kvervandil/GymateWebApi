@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Gymate.Application.Mapping;
-using Gymate.Domain.Model;
+using Gymate.Infrastructure.Entity.Model;
 
 namespace Gymate.Application.ViewModels.ExerciseTypeVm
 {

@@ -1,4 +1,4 @@
-﻿using Gymate.Domain.Model;
+﻿using Gymate.Infrastructure.Entity.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

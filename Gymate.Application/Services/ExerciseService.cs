@@ -2,8 +2,8 @@
 using AutoMapper.QueryableExtensions;
 using Gymate.Application.Interfaces;
 using Gymate.Application.ViewModels.ExerciseVm;
-using Gymate.Domain.Interfaces;
-using Gymate.Domain.Model;
+using Gymate.Infrastructure.Entity.Interfaces;
+using Gymate.Infrastructure.Entity.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;

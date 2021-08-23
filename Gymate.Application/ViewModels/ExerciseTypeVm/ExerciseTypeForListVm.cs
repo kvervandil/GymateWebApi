@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Gymate.Application.Mapping;
-using Gymate.Domain.Model;
+using Gymate.Infrastructure.Entity.Model;
 
 namespace Gymate.Application.ViewModels.ExerciseTypeVm
 {

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Gymate.Application.Mapping;
 using Gymate.Application.ViewModels.ExerciseVm;
-using Gymate.Domain.Model;
+using Gymate.Infrastructure.Entity.Model;
 using System.Collections.Generic;
 
 namespace Gymate.Application.ViewModels.RoutineVm
