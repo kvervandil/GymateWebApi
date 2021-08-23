@@ -24,15 +24,16 @@ namespace Gymate.Application.Services
             _mapper = mapper;
         }
 
-        public int AddExerciseType(NewExerciseTypeVm newExerciseType)
+        public async Task<int?> AddExerciseType(NewExerciseTypeVm newExerciseType, CancellationToken cancellationToken)
         {
-            var exerciseType = new ExerciseType
-            {
-                Id = newExerciseType.Id,
-                Name = newExerciseType.Name
-            };
+            var exerciseType = _mapper.Map<ExerciseType>(newExerciseType);
 
-            var id = _exerciseTypeRepo.AddExerciseType(exerciseType);
+            if (string.IsNullOrEmpty(exerciseType.Name))                
+            {
+                return null;
+            }
+
+            int id = await _exerciseTypeRepo.AddExerciseType(exerciseType, cancellationToken);
 
             return id;
         }
@@ -70,15 +71,18 @@ namespace Gymate.Application.Services
             return newExerciseTypeVm;
         }
 
-        public void UpdateExerciseType(NewExerciseTypeVm model)
+        public async Task<bool> UpdateExerciseType(int id, UpdateExerciseTypeVm model, CancellationToken cancellationToken)
         {
-            ExerciseType exerciseType = new ExerciseType
+            if (model is null)
             {
-                Id = model.Id,
-                Name = model.Name,
-            };
+                return false;
+            }
 
-            _exerciseTypeRepo.UpdateExerciseType(exerciseType);
+            ExerciseType exerciseType = _mapper.Map<ExerciseType>(model);
+
+            exerciseType.Id = id;
+
+            return await _exerciseTypeRepo.UpdateExerciseType(exerciseType, cancellationToken);
         }
 
         public List<SelectListItem> GetSelectListOfAllExerciseTypes(int chosenExerciseTypeId = 0)

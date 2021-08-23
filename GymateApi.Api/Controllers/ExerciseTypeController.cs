@@ -41,11 +41,11 @@ namespace Gymate.Api.Controllers
         [ValidateAntiForgeryToken]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult Create(NewExerciseTypeVm model)
+        public async Task<ActionResult> Create([FromBody] NewExerciseTypeVm model, CancellationToken cancellationToken)
         {
-            var id = _exerciseTypeService.AddExerciseType(model);
+            var id = await _exerciseTypeService.AddExerciseType(model, cancellationToken);
 
-            if (id == 0)
+            if (id == null)
 	        {
                 return BadRequest();
 	        }
@@ -56,9 +56,10 @@ namespace Gymate.Api.Controllers
         [HttpPut("{id}")]
         [ValidateAntiForgeryToken]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult Put([FromBody] NewExerciseTypeVm model)
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult> Put(int id, [FromBody] UpdateExerciseTypeVm model, CancellationToken cancellationToken)
         {
-            _exerciseTypeService.UpdateExerciseType(model);
+            _exerciseTypeService.UpdateExerciseType(id, model, cancellationToken);
             return NoContent();
         }
 

@@ -1,6 +1,7 @@
 ﻿using Gymate.Infrastructure.Entity.Interfaces;
 using Gymate.Infrastructure.Entity.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -17,26 +18,29 @@ namespace Gymate.Infrastructure.Repositories
             _context = context;
         }
 
-        public int AddExerciseType(ExerciseType exerciseType)
+        public async Task<int> AddExerciseType(ExerciseType exerciseType, CancellationToken cancellationToken)
         {
-            _context.Add(exerciseType);
+            await _context.AddAsync(exerciseType, cancellationToken);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return exerciseType.Id;
         }
 
-        public void DeleteExerciseType(int id)
+        public async Task<bool> DeleteExerciseType(int id, CancellationToken cancellationToken)
         {
-            var exerciseType = GetExerciseTypeById(id);
+            var exerciseType = await GetExerciseTypeById(id, cancellationToken);
 
             if (exerciseType != null)
             {
                 _context.ExerciseTypes.Remove(exerciseType);
-                _context.SaveChanges();
-            }
-        }
+                await _context.SaveChangesAsync();
 
+                return true;
+            }
+
+            return false;
+        }
 
         public async Task<List<ExerciseType>> GetExerciseTypes(int pageSize, int pageNo, string searchString, CancellationToken cancellationToken)
         {
@@ -61,11 +65,9 @@ namespace Gymate.Infrastructure.Repositories
             return _context.ExerciseTypes.Include(et => et.Exercises);
         }
 
-        public ExerciseType GetExerciseTypeById(int id)
+        public async Task<ExerciseType> GetExerciseTypeById(int id, CancellationToken cancellationToken)
         {
-            ExerciseType exerciseType = _context.ExerciseTypes.Find(id);
-
-            return exerciseType;
+            return await _context.ExerciseTypes.SingleOrDefaultAsync(et => et.Id == id, cancellationToken);
         }
 
         public ExerciseType GetExerciseTypeByName(string name)
@@ -75,12 +77,23 @@ namespace Gymate.Infrastructure.Repositories
             return exerciseType;
         }
 
-        public void UpdateExerciseType(ExerciseType exerciseType)
+        public async Task<bool> UpdateExerciseType(ExerciseType exerciseType, CancellationToken cancellationToken)
         {
-            _context.Attach(exerciseType);
-            _context.Entry(exerciseType).Property("Name").IsModified = true;
+            try
+            {
+                var exerciseTypeToUpdate = await GetExerciseTypeById(exerciseType.Id, cancellationToken);
 
-            _context.SaveChanges();
+                exerciseTypeToUpdate.Name = exerciseType.Name;
+
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return true;
+            }
+            catch
+            {
+                //todo logger to be added
+                return false;
+            }
         }        
     }
 }

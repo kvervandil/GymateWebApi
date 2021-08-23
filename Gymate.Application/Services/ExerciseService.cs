@@ -7,6 +7,7 @@ using Gymate.Infrastructure.Entity.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace Gymate.Application.Services
 {
@@ -27,7 +28,7 @@ namespace Gymate.Application.Services
 
         public int AddExercise(NewExerciseVm newExerciseVm)
         {
-            var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(newExerciseVm.ExerciseTypeId);
+            var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(newExerciseVm.ExerciseTypeId, new CancellationToken());
 
             var exercise = new Exercise
             {

@@ -8,12 +8,12 @@ namespace Gymate.Infrastructure.Entity.Interfaces
 {
     public interface IExerciseTypeRepository
     {
-        int AddExerciseType(ExerciseType exerciseType);
-        void DeleteExerciseType(int id);
+        Task<int> AddExerciseType(ExerciseType exerciseType, CancellationToken cancellationToken);
+        Task<bool> DeleteExerciseType(int id, CancellationToken cancellationToken);
         IQueryable<ExerciseType> GetAllExerciseTypes();
-        ExerciseType GetExerciseTypeById(int id);
+        Task<ExerciseType> GetExerciseTypeById(int id, CancellationToken cancellationToken);
         ExerciseType GetExerciseTypeByName(string name);
-        void UpdateExerciseType(ExerciseType exerciseType);
+        Task<bool> UpdateExerciseType(ExerciseType exerciseType, CancellationToken cancellationToken);
         IQueryable<ExerciseType> GetExerciseTypesWithExercises();
         Task<List<ExerciseType>> GetExerciseTypes(int pageSize, int pageNo, string searchString, CancellationToken cancellationToken);
         Task<int> GetNoOfExerciseTypes(CancellationToken cancellationToken);
