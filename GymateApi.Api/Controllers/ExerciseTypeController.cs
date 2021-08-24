@@ -59,15 +59,22 @@ namespace Gymate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put(int id, [FromBody] UpdateExerciseTypeVm model, CancellationToken cancellationToken)
         {
-            _exerciseTypeService.UpdateExerciseType(id, model, cancellationToken);
-            return NoContent();
+           var result = await _exerciseTypeService.UpdateExerciseType(id, model, cancellationToken);
+
+            if (result)
+            {
+                return NoContent();
+
+            }
+
+            return NotFound();
         }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id, CancellationToken cancellationToken)
         {
-            _exerciseTypeService.DeleteExerciseType(id);
+            _exerciseTypeService.DeleteExerciseType(id, cancellationToken);
 
             return NoContent();
         }

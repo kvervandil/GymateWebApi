@@ -38,9 +38,9 @@ namespace Gymate.Application.Services
             return id;
         }
 
-        public void DeleteExerciseType(int id)
+        public void DeleteExerciseType(int id, CancellationToken cancellationToken)
         {
-            _exerciseTypeRepo.DeleteExerciseType(id);
+            _exerciseTypeRepo.DeleteExerciseType(id, cancellationToken);
         }
 
         public async Task<PagedResultDto<ExerciseTypeForListVm>> GetAllExerciseTypes(int pageSize, int pageNo, string searchString, CancellationToken cancellationToken)
@@ -62,9 +62,9 @@ namespace Gymate.Application.Services
             return exerciseTypesForList;
         }
 
-        public NewExerciseTypeVm GetExerciseTypeForEdit(int id)
+        public NewExerciseTypeVm GetExerciseTypeForEdit(int id, CancellationToken cancellationToken)
         {
-            var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(id);
+            var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(id, cancellationToken);
 
             var newExerciseTypeVm = _mapper.Map<NewExerciseTypeVm>(exerciseType);
 

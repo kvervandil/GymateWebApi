@@ -1,8 +1,11 @@
 ﻿using Gymate.Application.Interfaces;
 using Gymate.Application.ViewModels.ExerciseVm;
+using Gymate.Application.ViewModels.General;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Gymate.Api.Controllers
 {
@@ -22,9 +25,10 @@ namespace Gymate.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult Get()
+        public async Task<ActionResult<PagedResultDto<ExerciseForListVm>>> Get(CancellationToken cancellationToken,
+            string searchString = "", int pageSize = 10, int pageNo = 1)
         {
-            var model = _exerciseService.GetAllExercises(10, 1, string.Empty);
+            var model = await _exerciseService.GetAllExercises(pageSize, pageNo, searchString, cancellationToken);
 
             if (model.Count == 0)
             {
@@ -37,11 +41,11 @@ namespace Gymate.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult Create([FromBody] NewExerciseVm model)
+        public async Task<ActionResult> Create([FromBody] NewExerciseVm model, CancellationToken cancellationToken)
         {
-            var id = _exerciseService.AddExercise(model);
+            var id = await _exerciseService.AddExercise(model, cancellationToken);
 
-            if (id == 0)
+            if (id is null)
             {
                 return BadRequest();
             }
@@ -54,24 +58,30 @@ namespace Gymate.Api.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult Put(NewExerciseVm model)
+        public async Task<ActionResult> Put(int id, [FromBody] NewExerciseVm model, CancellationToken cancellationToken)
         {             
-            _exerciseService.UpdateExercise(model);
+            var result = await _exerciseService.UpdateExercise(id, model, cancellationToken);
 
-            //todo Update to return bool, to check if true
-            return NoContent();
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return NotFound();
         }
 
         [HttpDelete("{id}")]
         [ValidateAntiForgeryToken]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
         {
-            _exerciseService.DeleteExercise(id);
-            
-            //todo Update to return bool, to check if true
+            var result = await _exerciseService.DeleteExercise(id, cancellationToken);
 
-            return NoContent();
+            if (result)
+            {
+                return NoContent();
+            }
+            return NotFound();
         }
     }
 }

@@ -2,12 +2,14 @@
 using AutoMapper.QueryableExtensions;
 using Gymate.Application.Interfaces;
 using Gymate.Application.ViewModels.ExerciseVm;
+using Gymate.Application.ViewModels.General;
 using Gymate.Infrastructure.Entity.Interfaces;
 using Gymate.Infrastructure.Entity.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Gymate.Application.Services
 {
@@ -26,85 +28,103 @@ namespace Gymate.Application.Services
             _mapper = mapper;
         }
 
-        public int AddExercise(NewExerciseVm newExerciseVm)
+        public async Task<int?> AddExercise(NewExerciseVm newExerciseVm, CancellationToken cancellationToken)
         {
-            var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(newExerciseVm.ExerciseTypeId, new CancellationToken());
+            var exerciseType = await _exerciseTypeRepo.GetExerciseTypeById(newExerciseVm.ExerciseTypeId, new CancellationToken());
 
-            var exercise = new Exercise
+            var exercise = _mapper.Map<Exercise>(newExerciseVm);
+
+            exercise.ExerciseType = exerciseType;
+            exercise.ExerciseTypeId = exerciseType.Id;
+
+            if (string.IsNullOrEmpty(exercise.Name))
             {
-                Id = newExerciseVm.Id,
-                Name = newExerciseVm.Name,
-                ExerciseType = exerciseType,
-                ExerciseTypeId = exerciseType.Id
+                return null;
+            }
+
+            int id = await _exerciseRepo.AddExercise(exercise, cancellationToken);
+
+            return id;
+        }
+
+        public async Task<PagedResultDto<ExerciseForListVm>> GetAllExercises(int pageSize, int pageNo, string searchString,
+            CancellationToken cancellationToken)
+        {
+            var exercises = await _exerciseRepo.GetAllExercises(pageSize, pageNo, searchString, cancellationToken);
+
+            var noOfExercises = await _exerciseRepo.GetNoOfExercises(cancellationToken);
+
+            var exercisesVm = _mapper.Map<List<ExerciseForListVm>>(exercises);
+
+            var exercisesForList = new PagedResultDto<ExerciseForListVm>
+            {
+                Items = exercisesVm,
+                CurentPage = pageNo,
+                Count = noOfExercises,
+                PageSize = pageNo
             };
 
-            _exerciseRepo.AddExercise(exercise);
-
-            return exercise.Id;
+            return exercisesForList;
         }
 
-        public ListForExerciseListVm GetAllExercises(int pageSize, int pageNo, string searchString)
+        public async Task<ExerciseForListVm> GetExercise(int id, CancellationToken cancellationToken)
         {
-            var exercises = _exerciseRepo.GetAllExercises().Where(e => e.Name.StartsWith(searchString))
-                .ProjectTo<ExerciseForListVm>(_mapper.ConfigurationProvider).ToList();
+            var exercise = await _exerciseRepo.GetExerciseById(id, cancellationToken);
 
-            var exercisesToShow = exercises.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToList();
-
-            ListForExerciseListVm listForExercisesListVm = new ListForExerciseListVm
+            if (exercise is null)
             {
-                Count = exercises.Count(),
-                CurrentPage = pageNo,
-                PageSize = pageSize,
-                SearchString = searchString,
-                ListExercisesForList = exercisesToShow
-            };
+                return null;
+            }
 
-            return listForExercisesListVm;
+            var exerciseVm = _mapper.Map<ExerciseForListVm>(exercise);
+
+            return exerciseVm;
         }
 
-        public ExerciseForListVm GetExercise(int id)
+        public async Task<NewExerciseVm> GetExerciseForEdit(int id, CancellationToken cancellationToken)
         {
-            var exercise = _exerciseRepo.GetExerciseById(id);
-
-            var exerciseForListVm = _mapper.Map<ExerciseForListVm>(exercise);
-
-            return exerciseForListVm;
-        }
-
-        public NewExerciseVm GetExerciseForEdit(int id)
-        {
-            var exercise = _exerciseRepo.GetExerciseById(id);
+            var exercise = await _exerciseRepo.GetExerciseById(id, cancellationToken);
 
             var newExerciseVm = _mapper.Map<NewExerciseVm>(exercise);
 
             return newExerciseVm;
         }
 
-        public void UpdateExercise(NewExerciseVm model)
+        public async Task<bool> UpdateExercise(int id, NewExerciseVm model, CancellationToken cancellationToken)
         {
-            ExerciseType exerciseType = _exerciseTypeRepo.GetExerciseTypeById(model.ExerciseTypeId);
-
-            Exercise exercise = new Exercise()
+            if (model is null)
             {
-                Id = model.Id,
-                ExerciseTypeId = model.ExerciseTypeId,
-                Name = model.Name,                
-                ExerciseType = exerciseType
-            };
+                return false;
+            }
 
-            _exerciseRepo.UpdateExercise(exercise);
+            ExerciseType exerciseType = await _exerciseTypeRepo.GetExerciseTypeById(model.ExerciseTypeId, cancellationToken);
+
+            Exercise exercise = _mapper.Map<Exercise>(model);
+            exercise.ExerciseType = exerciseType;
+            exercise.Id = id;
+
+            return await _exerciseRepo.UpdateExercise(exercise, cancellationToken);
         }
 
-        public void DeleteExercise(int id)
+        public async Task<bool> DeleteExercise(int id, CancellationToken cancellationToken)
         {
-            _exerciseRepo.DeleteExercise(id);
+            try
+            { 
+                return await _exerciseRepo.DeleteExercise(id, cancellationToken);
+            }
+            catch
+            {
+                //todo add logger
+                return false;
+            }
+
         }
 
-        public List<SelectListItem> GetSelectListOfAllExercises(int chosenExerciseId = 0)
+        public async Task<List<SelectListItem>> GetSelectListOfAllExercises(int chosenExerciseId = 0)
         {
             List<SelectListItem> selectedItems = new List<SelectListItem>();
 
-            var exercises = _exerciseRepo.GetAllExercises();
+            var exercises = await _exerciseRepo.GetAllExercises(10, 1, "", new CancellationToken());
 
             foreach(var exercise in exercises)
             {

@@ -11,9 +11,9 @@ namespace Gymate.Application.Interfaces
     {
         Task<PagedResultDto<ExerciseTypeForListVm>> GetAllExerciseTypes(int pageSize, int pageNo, string searchString, CancellationToken cancellationToken);
         Task<int?> AddExerciseType(NewExerciseTypeVm newExerciseType, CancellationToken cancellationToken);
-        NewExerciseTypeVm GetExerciseTypeForEdit(int id);
+        NewExerciseTypeVm GetExerciseTypeForEdit(int id, CancellationToken cancellationToken);
         Task<bool> UpdateExerciseType(int id, UpdateExerciseTypeVm model, CancellationToken cancellationToken);
-        void DeleteExerciseType(int id);
+        void DeleteExerciseType(int id, CancellationToken cancellationToken);
         List<SelectListItem> GetSelectListOfAllExerciseTypes(int chosenExerciseTypeId = 0);
         ListOfExerciseTypesWithExercisesForRoutine GetAllExerciseTypesWithExercises();
     }

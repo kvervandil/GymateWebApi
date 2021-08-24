@@ -1,6 +1,10 @@
 ﻿using Gymate.Infrastructure.Entity.Interfaces;
 using Gymate.Infrastructure.Entity.Model;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Gymate.Infrastructure.Repositories
 {
@@ -13,30 +17,34 @@ namespace Gymate.Infrastructure.Repositories
             _context = context;
         }
 
-        public void DeleteExercise(int exerciseId)
+        public async Task<bool> DeleteExercise(int exerciseId, CancellationToken cancellationToken)
         {
-            var exercise = _context.Exercises.Find(exerciseId);
+            //var exercise = _context.Exercises.Find(exerciseId);
 
-            if (exercise != null)
+            var exercise = GetExerciseById(exerciseId, cancellationToken);
+
+            if (exercise is null)
             {
-                _context.Exercises.Remove(exercise);
-                _context.SaveChanges();
+                return false;
             }
+
+            _context.Remove(exercise);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return true;
         }
 
-        public int AddExercise(Exercise exercise)
+        public async Task<int> AddExercise(Exercise exercise, CancellationToken cancellationToken)
         {
-            _context.Exercises.Add(exercise);
-            _context.SaveChanges();
+            await _context.Exercises.AddAsync(exercise, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return exercise.Id;
         }
 
-        public Exercise GetExerciseById(int id)
+        public async Task<Exercise> GetExerciseById(int id, CancellationToken cancellationToken)
         {
-            Exercise exercise = _context.Exercises.FirstOrDefault(e => e.Id == id);
-
-            return exercise;
+            return await _context.Exercises.SingleOrDefaultAsync(ex => ex.Id == id, cancellationToken);
         }
 
         public IQueryable<Exercise> GetExercisesByTypeId(int exerciseTypeId)
@@ -52,20 +60,35 @@ namespace Gymate.Infrastructure.Repositories
 
             return exercises;
         }
-        public IQueryable<Exercise> GetAllExercises()
+        public async Task<List<Exercise>> GetAllExercises(int pageSize, int pageNo, string searchString,
+            CancellationToken cancellationToken)
         {
-            IQueryable<Exercise> exercises = _context.Exercises;
+            var exercises = _context.Exercises.AsQueryable();
 
-            return exercises;
+            var exercisesFiltered = exercises.Where(p => p.Name.StartsWith(searchString));
+
+            return await exercisesFiltered.Skip(pageSize * (pageNo - 1)).Take(pageSize).ToListAsync(cancellationToken);
         }
 
-        public void UpdateExercise(Exercise exercise)
+        public async Task<bool> UpdateExercise(Exercise exercise, CancellationToken cancellationToken)
         {
-            _context.Attach(exercise);
-            _context.Entry(exercise).Property("Name").IsModified = true;
-            _context.Entry(exercise).Property("ExerciseTypeId").IsModified = true;
+            try
+            {
+                var exerciseToUpdate = await GetExerciseById(exercise.Id, cancellationToken);
 
-            _context.SaveChanges();
+                exerciseToUpdate.Name = exercise.Name;
+                exerciseToUpdate.Load = exercise.Load;
+                exerciseToUpdate.ExerciseType = exercise.ExerciseType;
+                exerciseToUpdate.ExerciseTypeId = exercise.ExerciseTypeId;
+
+                await _context.SaveChangesAsync(cancellationToken);
+                return true;
+            }
+            catch
+            {
+                //todo add logger, custom exception
+                return false;
+            }
         }
 
         public void UpdateExerciseWithExerciseRoutine(Exercise exercise, ExerciseRoutine exerciseRoutine)
@@ -75,6 +98,11 @@ namespace Gymate.Infrastructure.Repositories
             _context.Attach(exercise);
 
             _context.SaveChanges();
+        }
+
+        public async Task<int> GetNoOfExercises(CancellationToken cancellationToken)
+        {
+            return await _context.Exercises.CountAsync(cancellationToken);
         }
     }
 }
