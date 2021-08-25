@@ -1,18 +1,21 @@
 ﻿using Gymate.Infrastructure.Entity.Model;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Gymate.Infrastructure.Entity.Interfaces
 {
     public interface IRoutineRepository
     {
-        Routine GetRoutineById(int id);
+        Task<Routine> GetRoutineById(int id, CancellationToken cancellationToken);
 
-        int AddRoutine(Routine routine);
+        Task<int> AddRoutine(Routine routine, CancellationToken cancellationToken);
 
-        void DeleteRoutine(int id);
+        Task<bool> DeleteRoutine(int id, CancellationToken cancellationToken);
 
-        IQueryable<Routine> GetAllRoutines();
-        void UpdateRoutineWithName(Routine routine);
-        void UpdateRoutineWithExercise(int routineId, ExerciseRoutine exerciseRoutine);
+        Task<List<Routine>> GetAllRoutines(CancellationToken cancellationToken);
+        Task<bool> UpdateRoutineWithName(Routine routine, CancellationToken cancellationToken);
+        Task<bool> UpdateRoutineWithExercise(int routineId, ExerciseRoutine exerciseRoutine, CancellationToken cancellationToken);
     }
 }

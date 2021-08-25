@@ -54,9 +54,10 @@ namespace Gymate.Infrastructure.Repositories
             return exercises;
         }
 
-        public IQueryable<Exercise> GetExercisesByRoutineId (int routineId)
+        public async Task<List<Exercise>> GetExercisesByRoutineId (int routineId, CancellationToken cancellationToken)
         {
-            var exercises = _context.Exercises.Where(r => r.ExerciseRoutines.Any(er => er.RoutineId == routineId));
+            var exercises = await _context.Exercises.Where(r => r.ExerciseRoutines.Any(er => er.RoutineId == routineId))
+                .ToListAsync(cancellationToken);
 
             return exercises;
         }
@@ -91,13 +92,23 @@ namespace Gymate.Infrastructure.Repositories
             }
         }
 
-        public void UpdateExerciseWithExerciseRoutine(Exercise exercise, ExerciseRoutine exerciseRoutine)
-        {
-            exercise.ExerciseRoutines.Add(exerciseRoutine);
+        public async Task<bool> UpdateExerciseWithExerciseRoutine(Exercise exercise, ExerciseRoutine exerciseRoutine, CancellationToken cancellationToken)
+        { 
+            try
+            {
+                var exerciseToUpdate = await GetExerciseById(exercise.Id, cancellationToken);
 
-            _context.Attach(exercise);
+                exerciseToUpdate.ExerciseRoutines.Add(exerciseRoutine);
 
-            _context.SaveChanges();
+                await _context.SaveChangesAsync(cancellationToken);
+
+                return true;
+            }
+            catch
+            {
+
+                return false;
+            }
         }
 
         public async Task<int> GetNoOfExercises(CancellationToken cancellationToken)

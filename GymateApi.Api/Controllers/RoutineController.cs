@@ -2,6 +2,8 @@
 using Gymate.Application.ViewModels.RoutineVm;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Gymate.Api.Controllers
 {
@@ -22,9 +24,9 @@ namespace Gymate.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult Get()
+        public async Task<ActionResult<ListForRoutinesForListVm>> Get(CancellationToken cancellationToken)
         {
-            var model = _routineService.GetAllRoutines();
+            var model = await _routineService.GetAllRoutines(cancellationToken);
 
             if (model.Count == 0)
             {
@@ -37,9 +39,9 @@ namespace Gymate.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult Create(NewRoutineVm model)
+        public async Task<ActionResult> Create(NewRoutineVm model, CancellationToken cancellationToken)
         {
-            var id = _routineService.AddRoutine(model);
+            var id = await _routineService.AddRoutine(model, cancellationToken);
 
             if (id == 0)
             {
@@ -53,18 +55,28 @@ namespace Gymate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ValidateAntiForgeryToken]
-        public ActionResult Put(NewRoutineVm model)
+        public async Task<ActionResult> Put(NewRoutineVm model, CancellationToken cancellationToken)
         {
-            _routineService.UpdateRoutine(model);
+            var result = await _routineService.UpdateRoutine(model, cancellationToken);
 
-            return NoContent();
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return NotFound();
         }
 
         [HttpGet("id")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult Get(int id)
+        public ActionResult Get(int id, CancellationToken cancellationToken)
         {
-            var routine = _routineService.GetRoutine(id);
+            var routine = _routineService.GetRoutine(id, cancellationToken);
+
+            if (routine is null)
+            {
+                return NotFound();
+            }
 
             return Ok(routine);
         }
@@ -86,11 +98,16 @@ namespace Gymate.Api.Controllers
 
         [HttpDelete("id")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id, CancellationToken cancellationToken)
         {
-            _routineService.DeleteRoutine(id);
+            var result = await _routineService.DeleteRoutine(id, cancellationToken);
 
-            return NoContent();
+            if (result)
+            {
+                return NoContent();
+            }
+
+            return NotFound();
         }
     }
 }

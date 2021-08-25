@@ -1,7 +1,10 @@
 ﻿using Gymate.Infrastructure.Entity.Interfaces;
 using Gymate.Infrastructure.Entity.Model;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Gymate.Infrastructure.Repositories
 {
@@ -14,31 +17,31 @@ namespace Gymate.Infrastructure.Repositories
             _context = context;
         }
 
-        public Routine GetRoutineById(int id)
+        public async Task<List<Routine>> GetAllRoutines(CancellationToken cancellationToken)
         {
-            //Routine routine = _context.Routines.Find(id);
+            var routines = _context.Routines.AsQueryable();
 
-            var routine = _context.Routines.Where(routine => routine.Id == id)
-                .Include(routine => routine.ExerciseRoutines)
-                .SingleOrDefault();
+            return await routines.ToListAsync(cancellationToken);
+        }
 
-            //Routine routine = _context.Routines.Include(routine => routine.ExerciseRoutines).FirstOrDefault(routine => routine.Id == id);
-            
+        public async Task<Routine> GetRoutineById(int id, CancellationToken cancellationToken)
+        {
+            Routine routine = await _context.Routines.Include(routine => routine.ExerciseRoutines).SingleOrDefaultAsync(routine => routine.Id == id,
+                                                                                                                        cancellationToken);
             return routine;
         }
 
-        public int AddRoutine(Routine routine)
+        public async Task<int> AddRoutine(Routine routine, CancellationToken cancellationToken)
         {
-            _context.Routines.Add(routine);
-
-            _context.SaveChanges();
+            await _context.Routines.AddAsync(routine, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return routine.Id;
         }
 
-        public void DeleteRoutine(int id)
+        public async Task<bool> DeleteRoutine(int id, CancellationToken cancellationToken)
         {
-            var routine = GetRoutineById(id);
+            var routine = await GetRoutineById(id, cancellationToken);
             var exerciseRoutine = GetExerciseRoutineByRoutineId(id);
 
             if (routine != null)
@@ -48,7 +51,11 @@ namespace Gymate.Infrastructure.Repositories
                 _context.ExerciseRoutine.RemoveRange(exerciseRoutine);
 
                 _context.SaveChanges();
+
+                return true;
             }
+
+            return false;
         }
 
         private ExerciseRoutine GetExerciseRoutineByRoutineId(int id)
@@ -57,31 +64,41 @@ namespace Gymate.Infrastructure.Repositories
             //return _context.ExerciseRoutine.Where(er => er.RoutineId == id);
         }
 
-        public void UpdateRoutineWithExercise(int routineId, ExerciseRoutine exerciseRoutine)
+        public async Task<bool> UpdateRoutineWithExercise(int routineId, ExerciseRoutine exerciseRoutine, CancellationToken cancellationToken)
         {
-            var routine = GetRoutineById(routineId);
+            try
+            {
+                var routine = await GetRoutineById(routineId, cancellationToken);
 
-            _context.ExerciseRoutine.Add(exerciseRoutine);
+                await _context.ExerciseRoutine.AddAsync(exerciseRoutine, cancellationToken);
 
-            routine.ExerciseRoutines.Add(exerciseRoutine);
+                routine.ExerciseRoutines.Add(exerciseRoutine);
 
-            _context.Attach(routine);
+                await _context.SaveChangesAsync(cancellationToken);
 
-            _context.SaveChanges();
+                return true;
+            }
+            catch 
+            {
+                return false;
+            }
         }
 
-        public IQueryable<Routine> GetAllRoutines()
+        public async Task<bool> UpdateRoutineWithName(Routine routine, CancellationToken cancellationToken)
         {
-            return _context.Routines;
-        }
+            try
+            {
+                var routineToUpdate = await GetRoutineById(routine.Id, cancellationToken);
 
-        public void UpdateRoutineWithName(Routine routine)
-        {
-            _context.Attach(routine);
+                routineToUpdate.Name = routine.Name;
+                await _context.SaveChangesAsync(cancellationToken);
 
-            _context.Entry(routine).Property("Name").IsModified = true;
-
-            _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

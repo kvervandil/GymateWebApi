@@ -5,7 +5,10 @@ using Gymate.Application.ViewModels.ExerciseVm;
 using Gymate.Application.ViewModels.RoutineVm;
 using Gymate.Infrastructure.Entity.Interfaces;
 using Gymate.Infrastructure.Entity.Model;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Gymate.Application.Services
 {
@@ -22,28 +25,11 @@ namespace Gymate.Application.Services
             _mapper = mapper;
         }
 
-        public int AddRoutine(NewRoutineVm model)
+        public async Task<ListForRoutinesForListVm> GetAllRoutines(CancellationToken cancellationToken)
         {
-            var routine = new Routine
-            {
-                Id = model.Id,
-                Name = model.Name
-            };
+            var routines = await _routineRepository.GetAllRoutines(cancellationToken);
 
-            _routineRepository.AddRoutine(routine);
-
-            return routine.Id;
-        }
-
-        public void DeleteRoutine(int id)
-        {
-            _routineRepository.DeleteRoutine(id);
-        }
-
-        public ListForRoutinesForListVm GetAllRoutines()
-        {
-            var routines = _routineRepository.GetAllRoutines();
-            var routinesVm = routines.ProjectTo<RoutineForListVm>(_mapper.ConfigurationProvider).ToList();
+            var routinesVm = _mapper.Map<List<RoutineForListVm>>(routines); 
 
             var listForRoutinesListVm = new ListForRoutinesForListVm()
             {
@@ -54,29 +40,57 @@ namespace Gymate.Application.Services
             return listForRoutinesListVm;
         }
 
-        public RoutineForListVm GetRoutine(int id)
+        public async Task<int?> AddRoutine(NewRoutineVm model, CancellationToken cancellationToken)
         {
-            var routine = _routineRepository.GetRoutineById(id);
+            Routine routine = _mapper.Map<Routine>(model);
 
-            var exercises = _exerciseRepository.GetExercisesByRoutineId(id);
+            if (string.IsNullOrEmpty(routine.Name))
+            {
+                return null;
+            }
+
+            int id = await _routineRepository.AddRoutine(routine, cancellationToken);
+
+            return id;
+        }
+
+        public async Task<bool> DeleteRoutine(int id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await _routineRepository.DeleteRoutine(id, cancellationToken);
+
+            }
+            catch 
+            {
+                return false;
+            }
+        }
+
+
+        public async Task<RoutineForListVm> GetRoutine(int id, CancellationToken cancellationToken)
+        {
+            var routine = await _routineRepository.GetRoutineById(id, cancellationToken);
+
+            var exercises = await _exerciseRepository.GetExercisesByRoutineId(id, cancellationToken);
 
             var routineForListVm = _mapper.Map<RoutineForListVm>(routine);
 
-            routineForListVm.ExercisesForListVm = exercises.ProjectTo<ExerciseForListVm>(_mapper.ConfigurationProvider).ToList();
+            routineForListVm.ExercisesForListVm = _mapper.Map<List<ExerciseForListVm>>(exercises);
 
             return routineForListVm;
         }
 
-        public NewRoutineVm GetRoutineToNameEdit(int id)
+        public async Task<NewRoutineVm> GetRoutineToNameEdit(int id, CancellationToken cancellationToken)
         {
-            var routine = _routineRepository.GetRoutineById(id);
+            var routine = await _routineRepository.GetRoutineById(id, cancellationToken);
 
             var routineVm = _mapper.Map<NewRoutineVm>(routine);
 
             return routineVm;
         }
 
-        public void UpdateRoutine(NewRoutineVm routineVm)
+        public async Task<bool> UpdateRoutine(NewRoutineVm routineVm, CancellationToken cancellationToken)
         {
             Routine routine = new Routine
             {
@@ -84,14 +98,14 @@ namespace Gymate.Application.Services
                 Name = routineVm.Name
             };
 
-            _routineRepository.UpdateRoutineWithName(routine);
+            return await _routineRepository.UpdateRoutineWithName(routine, cancellationToken);
         }
 
-        public int AddExercise(ExerciseToAddForRoutineVm model)
+        public async Task<int?> AddExercise(ExerciseToAddForRoutineVm model, CancellationToken cancellationToken)
         {
-            var exercise = _exerciseRepository.GetExerciseById(model.ExerciseId);
+            var exercise = await _exerciseRepository.GetExerciseById(model.ExerciseId, cancellationToken);
 
-            var routine = _routineRepository.GetRoutineById(model.RoutineId);
+            var routine = await _routineRepository.GetRoutineById(model.RoutineId, cancellationToken);
 
             ExerciseRoutine exerciseRoutine = new ExerciseRoutine
             {
@@ -101,9 +115,9 @@ namespace Gymate.Application.Services
                 Routine = routine,
             };
 
-            _routineRepository.UpdateRoutineWithExercise(routine.Id, exerciseRoutine);
+            await _routineRepository.UpdateRoutineWithExercise(routine.Id, exerciseRoutine, cancellationToken);
 
-            _exerciseRepository.UpdateExerciseWithExerciseRoutine(exercise, exerciseRoutine);
+            await _exerciseRepository.UpdateExerciseWithExerciseRoutine(exercise, exerciseRoutine, cancellationToken);
 
             return routine.Id;
         }
