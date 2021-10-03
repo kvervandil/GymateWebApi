@@ -1,14 +1,14 @@
-﻿using Gymate.Infrastructure.Entity.Model;
+﻿using Gymate.Infrastructure.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Gymate.Infrastructure.Entity.Interfaces
+namespace Gymate.Infrastructure.Interfaces
 {
     public interface IExerciseRepository
     {
-        Task<bool> DeleteExercise(int id, CancellationToken cancellationToken);
+        Task<bool> DeleteExercise(int exerciseId, CancellationToken cancellationToken);
 
         Task<int> AddExercise(Exercise exercise, CancellationToken cancellationToken);
         Task<Exercise> GetExerciseById(int id, CancellationToken cancellationToken);

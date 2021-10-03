@@ -1,10 +1,10 @@
-﻿using Gymate.Infrastructure.Entity.Model;
+﻿using Gymate.Infrastructure.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Gymate.Infrastructure.Entity.Interfaces
+namespace Gymate.Infrastructure.Interfaces
 {
     public interface IExerciseTypeRepository
     {

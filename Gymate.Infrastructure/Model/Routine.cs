@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Gymate.Infrastructure.Entity.Model
+namespace Gymate.Infrastructure.Model
 {
     public class Routine
     {

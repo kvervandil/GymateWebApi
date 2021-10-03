@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Gymate.Application.ViewModels.General
+namespace Gymate.Domain.BOs.General
 {
-    public class PagedResultDto<T>
+    public class PagedResultBO<T>
     {
         public List<T> Items { get; set; }
         public int CurentPage { get; set; }

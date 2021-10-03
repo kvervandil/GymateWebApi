@@ -1,6 +1,8 @@
-﻿using Gymate.Application.Interfaces;
+﻿using AutoMapper;
+using Gymate.Api.ViewModels.General;
+using Gymate.Application.Interfaces;
 using Gymate.Application.ViewModels.ExerciseVm;
-using Gymate.Application.ViewModels.General;
+using Gymate.Domain.BOs.ExerciseBOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,11 +16,14 @@ namespace Gymate.Api.Controllers
     {
         private IExerciseService _exerciseService;
         private IExerciseTypeService _exerciseTypeService;
+        private readonly IMapper _mapper;
 
-        public ExerciseController(IExerciseService exerciseService, IExerciseTypeService exerciseTypeService)
+        public ExerciseController(IExerciseService exerciseService, IExerciseTypeService exerciseTypeService, IMapper mapper)
         {
             _exerciseService = exerciseService;
             _exerciseTypeService = exerciseTypeService;
+
+            _mapper = mapper;
         }
 
         // GET: ExerciseController
@@ -43,7 +48,9 @@ namespace Gymate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Create([FromBody] NewExerciseVm model, CancellationToken cancellationToken)
         {
-            var id = await _exerciseService.AddExercise(model, cancellationToken);
+            var exerciseBO = _mapper.Map<NewExerciseBO>(model);
+
+            var id = await _exerciseService.AddExercise(exerciseBO, cancellationToken);
 
             if (id is null)
             {
@@ -59,8 +66,10 @@ namespace Gymate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put(int id, [FromBody] NewExerciseVm model, CancellationToken cancellationToken)
-        {             
-            var result = await _exerciseService.UpdateExercise(id, model, cancellationToken);
+        {
+            var exerciseBO = _mapper.Map<EditExerciseBO>(model);
+
+            var result = await _exerciseService.UpdateExercise(id, exerciseBO, cancellationToken);
 
             if (result)
             {

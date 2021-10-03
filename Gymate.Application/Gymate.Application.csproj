@@ -18,8 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Gymate.Domain\Gymate.Domain.csproj" />
     <ProjectReference Include="..\Gymate.Domain\Gymate.Entity.csproj" />
-    <ProjectReference Include="..\Gymate.Entity\Gymate.Entity.csproj" />
+    <ProjectReference Include="..\Gymate.Infrastructure\Gymate.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

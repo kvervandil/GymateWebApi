@@ -1,6 +1,8 @@
 ﻿using Gymate.Application.Interfaces;
 using Gymate.Application.ViewModels.ExerciseTypeVm;
 using Gymate.Application.ViewModels.General;
+using Gymate.Domain.BOs.ExerciseTypeBOs;
+using Gymate.Domain.BOs.General;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,7 +26,7 @@ namespace Gymate.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PagedResultDto<ExerciseTypeForListVm>>> Get(CancellationToken cancellationToken,
+        public async Task<ActionResult<PagedResultBO<SingleExerciseTypeBO>>> Get(CancellationToken cancellationToken,
             string searchString = "", int pageSize = 10, int pageNo = 1)
         {
             var model = await _exerciseTypeService.GetAllExerciseTypes(pageSize, pageNo, searchString, cancellationToken);

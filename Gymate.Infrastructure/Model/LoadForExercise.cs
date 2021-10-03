@@ -1,4 +1,4 @@
-﻿namespace Gymate.Infrastructure.Entity.Model
+﻿namespace Gymate.Infrastructure.Model
 {
     public class LoadForExercise
     {
