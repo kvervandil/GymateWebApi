@@ -1,3 +1,0 @@
-2021-08-15T22:31:27.0011806+02:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
-2021-08-15T22:31:27.0101456+02:00  [INF] Hosting environment: "Development" (c3307c92)
-2021-08-15T22:31:27.0123739+02:00  [INF] Content root path: "C:\Users\jglinski\Source\Repos\GymateWebApi\GymateMVC.Web" (b5d60022)
