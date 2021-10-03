@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gymate.Domain\Gymate.Entity.csproj" />
+    <ProjectReference Include="..\Gymate.Entity\Gymate.Entity.csproj" />
   </ItemGroup>
 
 </Project>
