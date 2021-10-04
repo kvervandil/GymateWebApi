@@ -1,22 +1,22 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using Gymate.Application.Mapping;
-using Gymate.Infrastructure.Entity.Model;
+using Gymate.Infrastructure.Model;
 
 namespace Gymate.Application.ViewModels.ExerciseTypeVm
 {
-    public class NewExerciseTypeVm : IMapFrom<ExerciseType>
+    public class CreateExerciseTypeVm : IMapFrom<ExerciseType>
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<ExerciseType, NewExerciseTypeVm>();
+            profile.CreateMap<ExerciseType, CreateExerciseTypeVm>();
         }
     }
 
-    public class NewExerciseTypeValidation : AbstractValidator<NewExerciseTypeVm>
+    public class NewExerciseTypeValidation : AbstractValidator<CreateExerciseTypeVm>
     {
         public NewExerciseTypeValidation()
         {

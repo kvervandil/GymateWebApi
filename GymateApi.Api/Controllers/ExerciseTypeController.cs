@@ -43,7 +43,7 @@ namespace Gymate.Api.Controllers
         [ValidateAntiForgeryToken]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> Create([FromBody] NewExerciseTypeVm model, CancellationToken cancellationToken)
+        public async Task<ActionResult> Create([FromBody] CreateExerciseTypeVm model, CancellationToken cancellationToken)
         {
             var id = await _exerciseTypeService.AddExerciseType(model, cancellationToken);
 

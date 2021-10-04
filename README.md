@@ -30,7 +30,7 @@ Before first run create database in SQL Management Studio, call it 'Gymate'
 and migrate using Entity Framework Core
 
 ```sh
-Add-Migration
+Update-Database
 ```
 
 ## License

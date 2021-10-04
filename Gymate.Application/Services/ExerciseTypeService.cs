@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Gymate.Application.Interfaces;
-using Gymate.Application.ViewModels.ExerciseTypeVm;
-using Gymate.Application.ViewModels.General;
-using Gymate.Infrastructure.Entity.Interfaces;
-using Gymate.Infrastructure.Entity.Model;
+using Gymate.Domain.BOs.ExerciseTypeBOs;
+using Gymate.Domain.BOs.General;
+using Gymate.Infrastructure.Interfaces;
+using Gymate.Infrastructure.Model;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace Gymate.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<int?> AddExerciseType(NewExerciseTypeVm newExerciseType, CancellationToken cancellationToken)
+        public async Task<int?> AddExerciseType(CreateExerciseTypeBo newExerciseType, CancellationToken cancellationToken)
         {
             var exerciseType = _mapper.Map<ExerciseType>(newExerciseType);
 
@@ -43,15 +43,15 @@ namespace Gymate.Application.Services
             _exerciseTypeRepo.DeleteExerciseType(id, cancellationToken);
         }
 
-        public async Task<PagedResultDto<ExerciseTypeForListVm>> GetAllExerciseTypes(int pageSize, int pageNo, string searchString, CancellationToken cancellationToken)
+        public async Task<PagedResultBO<SingleExerciseTypeBO>> GetAllExerciseTypes(int pageSize, int pageNo, string searchString, CancellationToken cancellationToken)
         {
             var exerciseTypes = await _exerciseTypeRepo.GetExerciseTypes(pageSize, pageNo, searchString, cancellationToken);
 
             var noOfExerciseTypes = await _exerciseTypeRepo.GetNoOfExerciseTypes(cancellationToken);
 
-            var exerciseTypesVm = _mapper.Map<List<ExerciseTypeForListVm>>(exerciseTypes);
+            var exerciseTypesVm = _mapper.Map<List<SingleExerciseTypeBO>>(exerciseTypes);
 
-            var exerciseTypesForList = new PagedResultDto<ExerciseTypeForListVm>
+            var exerciseTypesForList = new PagedResultBO<SingleExerciseTypeBO>
             {
                 Items = exerciseTypesVm,
                 CurentPage = pageNo,
@@ -62,16 +62,16 @@ namespace Gymate.Application.Services
             return exerciseTypesForList;
         }
 
-        public NewExerciseTypeVm GetExerciseTypeForEdit(int id, CancellationToken cancellationToken)
+        public UpdateExerciseTypeBO GetExerciseTypeForEdit(int id, CancellationToken cancellationToken)
         {
             var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(id, cancellationToken);
 
-            var newExerciseTypeVm = _mapper.Map<NewExerciseTypeVm>(exerciseType);
+            var newExerciseTypeVm = _mapper.Map<UpdateExerciseTypeBO>(exerciseType);
 
             return newExerciseTypeVm;
         }
 
-        public async Task<bool> UpdateExerciseType(int id, UpdateExerciseTypeVm model, CancellationToken cancellationToken)
+        public async Task<bool> UpdateExerciseType(int id, UpdateExerciseTypeBO model, CancellationToken cancellationToken)
         {
             if (model is null)
             {
@@ -85,28 +85,7 @@ namespace Gymate.Application.Services
             return await _exerciseTypeRepo.UpdateExerciseType(exerciseType, cancellationToken);
         }
 
-        public List<SelectListItem> GetSelectListOfAllExerciseTypes(int chosenExerciseTypeId = 0)
-        {
-            List<SelectListItem> selectedItems = new List<SelectListItem>();
-
-            var exerciseTypes = _exerciseTypeRepo.GetAllExerciseTypes();
-
-            foreach (var exerciseType in exerciseTypes)
-            {
-                SelectListItem selectedExerciseType = new SelectListItem { Value = exerciseType.Id.ToString(), Text = exerciseType.Name };
-
-                if (exerciseType.Id == chosenExerciseTypeId)
-                {
-                    selectedExerciseType.Selected = true;
-                }
-
-                selectedItems.Add(selectedExerciseType);
-            }
-
-            return selectedItems;
-        }
-
-        public ListOfExerciseTypesWithExercisesForRoutine GetAllExerciseTypesWithExercises()
+/*        public ListOfExerciseTypesWithExercisesForRoutine GetAllExerciseTypesWithExercises()
         {
             var listOfExericeTypes = new ListOfExerciseTypesWithExercisesForRoutine();
 
@@ -117,6 +96,6 @@ namespace Gymate.Application.Services
             listOfExericeTypes.Count = exerciseTypes.Count;
 
             return listOfExericeTypes;
-        }
+        }*/
     }
 }

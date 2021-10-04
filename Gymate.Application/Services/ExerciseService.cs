@@ -28,7 +28,7 @@ namespace Gymate.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<int?> AddExercise(NewExerciseBO newExerciseBO, CancellationToken cancellationToken)
+        public async Task<int?> AddExercise(CreateExerciseBO newExerciseBO, CancellationToken cancellationToken)
         {
             var exerciseType = await _exerciseTypeRepo.GetExerciseTypeById(newExerciseBO.ExerciseTypeId, new CancellationToken());
 

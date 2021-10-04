@@ -1,5 +1,7 @@
 ﻿using Gymate.Application.Interfaces;
 using Gymate.Application.ViewModels.RoutineVm;
+using Gymate.Domain.BOs.General;
+using Gymate.Domain.BOs.RoutineBOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -24,7 +26,7 @@ namespace Gymate.Api.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<ListForRoutinesForListVm>> Get(CancellationToken cancellationToken)
+        public async Task<ActionResult<PagedResultBO<SingleRoutineBO>>> Get(CancellationToken cancellationToken)
         {
             var model = await _routineService.GetAllRoutines(cancellationToken);
 

@@ -12,7 +12,7 @@ namespace Gymate.Application.Interfaces
     {
         Task<PagedResultBO<AllExercisesBO>> GetAllExercises(int pageSize, int pageNo, string searchString,
                                                                 CancellationToken cancellationToken);
-        Task<int?> AddExercise(NewExerciseBO newExerciseBO, CancellationToken cancellationToken);
+        Task<int?> AddExercise(CreateExerciseBO newExerciseBO, CancellationToken cancellationToken);
         Task<SingleExerciseBO> GetExercise(int id, CancellationToken cancellationToken);
         Task<EditExerciseBO> GetExerciseForEdit(int id, CancellationToken cancellationToken);
         Task<bool> UpdateExercise(int id, EditExerciseBO model, CancellationToken cancellationToken);

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Gymate.Domain.BOs.ExerciseBOs
 {
-    public class NewExerciseBO : IMapFrom<Exercise>
+    public class CreateExerciseBO : IMapFrom<Exercise>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -17,7 +17,7 @@ namespace Gymate.Domain.BOs.ExerciseBOs
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<Exercise, NewExerciseBO>();
+            profile.CreateMap<Exercise, CreateExerciseBO>();
         }
     }
 }

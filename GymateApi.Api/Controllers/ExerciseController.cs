@@ -48,7 +48,7 @@ namespace Gymate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Create([FromBody] NewExerciseVm model, CancellationToken cancellationToken)
         {
-            var exerciseBO = _mapper.Map<NewExerciseBO>(model);
+            var exerciseBO = _mapper.Map<CreateExerciseBO>(model);
 
             var id = await _exerciseService.AddExercise(exerciseBO, cancellationToken);
 
