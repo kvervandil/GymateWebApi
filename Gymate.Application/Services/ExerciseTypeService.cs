@@ -24,7 +24,7 @@ namespace Gymate.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<int?> AddExerciseType(CreateExerciseTypeBo newExerciseType, CancellationToken cancellationToken)
+        public async Task<int?> AddExerciseType(CreateExerciseTypeBO newExerciseType, CancellationToken cancellationToken)
         {
             var exerciseType = _mapper.Map<ExerciseType>(newExerciseType);
 
@@ -62,16 +62,16 @@ namespace Gymate.Application.Services
             return exerciseTypesForList;
         }
 
-        public UpdateExerciseTypeBO GetExerciseTypeForEdit(int id, CancellationToken cancellationToken)
+        public EditExerciseTypeBO GetExerciseTypeForEdit(int id, CancellationToken cancellationToken)
         {
             var exerciseType = _exerciseTypeRepo.GetExerciseTypeById(id, cancellationToken);
 
-            var newExerciseTypeVm = _mapper.Map<UpdateExerciseTypeBO>(exerciseType);
+            var newExerciseTypeVm = _mapper.Map<EditExerciseTypeBO>(exerciseType);
 
             return newExerciseTypeVm;
         }
 
-        public async Task<bool> UpdateExerciseType(int id, UpdateExerciseTypeBO model, CancellationToken cancellationToken)
+        public async Task<bool> UpdateExerciseType(int id, EditExerciseTypeBO model, CancellationToken cancellationToken)
         {
             if (model is null)
             {

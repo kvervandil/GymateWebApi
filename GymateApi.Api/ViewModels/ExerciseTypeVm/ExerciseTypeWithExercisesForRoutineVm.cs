@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Gymate.Application.Mapping;
 using Gymate.Application.ViewModels.ExerciseVm;
-using Gymate.Infrastructure.Entity.Model;
+using Gymate.Domain.BOs.ExerciseTypeBOs;
 using System.Collections.Generic;
 
 namespace Gymate.Application.ViewModels.ExerciseTypeVm
 {
-    public class ExerciseTypeWithExercisesForRoutineVm : IMapFrom<ExerciseType>
+    public class ExerciseTypeWithExercisesForRoutineVm : IMapFrom<EditExerciseTypeBO>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -14,7 +14,7 @@ namespace Gymate.Application.ViewModels.ExerciseTypeVm
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<ExerciseType, ExerciseTypeWithExercisesForRoutineVm>();
+            profile.CreateMap<EditExerciseTypeBO, ExerciseTypeWithExercisesForRoutineVm>();
         }
     }
 }

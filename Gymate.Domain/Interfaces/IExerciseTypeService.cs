@@ -9,9 +9,9 @@ namespace Gymate.Application.Interfaces
     public interface IExerciseTypeService
     {
         Task<PagedResultBO<SingleExerciseTypeBO>> GetAllExerciseTypes(int pageSize, int pageNo, string searchString, CancellationToken cancellationToken);
-        Task<int?> AddExerciseType(CreateExerciseTypeBo newExerciseType, CancellationToken cancellationToken);
-        UpdateExerciseTypeBO GetExerciseTypeForEdit(int id, CancellationToken cancellationToken);
-        Task<bool> UpdateExerciseType(int id, UpdateExerciseTypeBO model, CancellationToken cancellationToken);
+        Task<int?> AddExerciseType(CreateExerciseTypeBO newExerciseType, CancellationToken cancellationToken);
+        EditExerciseTypeBO GetExerciseTypeForEdit(int id, CancellationToken cancellationToken);
+        Task<bool> UpdateExerciseType(int id, EditExerciseTypeBO model, CancellationToken cancellationToken);
         void DeleteExerciseType(int id, CancellationToken cancellationToken);
     }
 }

@@ -1,5 +1,5 @@
-﻿using Gymate.Infrastructure.Entity.Interfaces;
-using Gymate.Infrastructure.Entity.Model;
+﻿using Gymate.Infrastructure.Interfaces;
+using Gymate.Infrastructure.Model;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;

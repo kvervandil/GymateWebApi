@@ -1,4 +1,4 @@
-﻿using Gymate.Application.ViewModels.RoutineVm;
+﻿using Gymate.Domain.BOs.ExerciseBOs;
 using Gymate.Domain.BOs.RoutineBOs;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +13,6 @@ namespace Gymate.Application.Interfaces
         Task<bool> UpdateRoutine(EditRoutineBO routineVm, CancellationToken cancellationToken);
         Task<bool> DeleteRoutine(int id, CancellationToken cancellationToken);
         Task<EditRoutineBO> GetRoutineToNameEdit(int id, CancellationToken cancellationToken);
-        Task<int?> AddExercise(ExerciseToAddForRoutineVm model, CancellationToken cancellationToken);
+        Task<int?> AddExercise(AddExerciseToRoutineBO model, CancellationToken cancellationToken);
     }
 }

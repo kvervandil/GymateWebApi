@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Gymate.Application\Gymate.Application.csproj" />
     <ProjectReference Include="..\Gymate.Domain\Gymate.Domain.csproj" />
   </ItemGroup>
 

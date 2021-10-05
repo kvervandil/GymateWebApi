@@ -3,7 +3,7 @@ using Gymate.Application.Interfaces;
 using Gymate.Domain.BOs.ExerciseBOs;
 using Gymate.Domain.BOs.ExercisesBOs;
 using Gymate.Domain.BOs.General;
-using Gymate.Infrastructure.Entity.Interfaces;
+using Gymate.Infrastructure.Interfaces;
 using Gymate.Infrastructure.Model;
 using System;
 using System.Collections.Generic;

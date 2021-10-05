@@ -1,8 +1,6 @@
 ﻿using Gymate.Domain.BOs.ExerciseBOs;
 using Gymate.Domain.BOs.ExercisesBOs;
 using Gymate.Domain.BOs.General;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 

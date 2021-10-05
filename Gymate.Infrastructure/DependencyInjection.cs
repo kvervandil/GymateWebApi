@@ -1,4 +1,4 @@
-﻿using Gymate.Infrastructure.Entity.Interfaces;
+﻿using Gymate.Infrastructure.Interfaces;
 using Gymate.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

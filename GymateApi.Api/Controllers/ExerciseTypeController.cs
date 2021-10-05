@@ -1,6 +1,7 @@
-﻿using Gymate.Application.Interfaces;
+﻿using AutoMapper;
+using Gymate.Api.ViewModels.General;
+using Gymate.Application.Interfaces;
 using Gymate.Application.ViewModels.ExerciseTypeVm;
-using Gymate.Application.ViewModels.General;
 using Gymate.Domain.BOs.ExerciseTypeBOs;
 using Gymate.Domain.BOs.General;
 using Microsoft.AspNetCore.Http;
@@ -16,22 +17,26 @@ namespace Gymate.Api.Controllers
     {
         private readonly IExerciseTypeService _exerciseTypeService;
         private readonly ILogger<ExerciseTypeController> _logger;
+        private readonly IMapper _mapper;
 
-        public ExerciseTypeController(IExerciseTypeService exerciseTypeService, ILogger<ExerciseTypeController> loger)
+        public ExerciseTypeController(IExerciseTypeService exerciseTypeService, ILogger<ExerciseTypeController> logger, IMapper mapper)
         {
             _exerciseTypeService = exerciseTypeService;
-            _logger = loger;
+            _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<PagedResultBO<SingleExerciseTypeBO>>> Get(CancellationToken cancellationToken,
+        public async Task<ActionResult<PagedResultDto<ExerciseTypeForListVm>>> GetAll(CancellationToken cancellationToken,
             string searchString = "", int pageSize = 10, int pageNo = 1)
         {
             var model = await _exerciseTypeService.GetAllExerciseTypes(pageSize, pageNo, searchString, cancellationToken);
 
-            if (model.Count == 0)
+            var result = _mapper.Map<PagedResultDto<ExerciseTypeForListVm>>(model);
+
+            if (result.Count == 0)
 	        {
                 return NotFound();
 	        }
@@ -45,14 +50,16 @@ namespace Gymate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Create([FromBody] CreateExerciseTypeVm model, CancellationToken cancellationToken)
         {
-            var id = await _exerciseTypeService.AddExerciseType(model, cancellationToken);
+            var createExerciseTypeBo = _mapper.Map<CreateExerciseTypeBO>(model);
+
+            var id = await _exerciseTypeService.AddExerciseType(createExerciseTypeBo, cancellationToken);
 
             if (id == null)
 	        {
                 return BadRequest();
 	        }
 
-            return Created(nameof(Get), id);
+            return Created(nameof(GetAll), id);
         }
 
         [HttpPut("{id}")]
@@ -61,7 +68,9 @@ namespace Gymate.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Put(int id, [FromBody] UpdateExerciseTypeVm model, CancellationToken cancellationToken)
         {
-           var result = await _exerciseTypeService.UpdateExerciseType(id, model, cancellationToken);
+            var editExerciseTypeBo = _mapper.Map<EditExerciseTypeBO>(model);
+
+           var result = await _exerciseTypeService.UpdateExerciseType(id, editExerciseTypeBo, cancellationToken);
 
             if (result)
             {

@@ -8,18 +8,18 @@ using System.Text;
 
 namespace Gymate.Domain.BOs.ExerciseTypeBOs
 {
-    public class CreateExerciseTypeBo : IMapFrom<ExerciseType>
+    public class CreateExerciseTypeBO : IMapFrom<ExerciseType>
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<ExerciseType, CreateExerciseTypeBo>();
+            profile.CreateMap<ExerciseType, CreateExerciseTypeBO>();
         }
     }
 
-    public class NewExerciseTypeValidation : AbstractValidator<CreateExerciseTypeBo>
+    public class NewExerciseTypeValidation : AbstractValidator<CreateExerciseTypeBO>
     {
         public NewExerciseTypeValidation()
         {
